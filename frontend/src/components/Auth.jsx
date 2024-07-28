@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../styles/tailwind.css';
 
-
-const Auth = () => {
-  const { role } = useParams();
+const Auth = ({ role }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSignUp, setIsSignUp] = useState(true);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Reset messages when isSignUp changes
+    setSuccessMessage('');
+    setErrorMessage('');
+  }, [isSignUp]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,10 +27,28 @@ const Auth = () => {
         email,
         password,
       });
+      setSuccessMessage(isSignUp ? 'Sign up successful!' : 'Sign in successful!');
+      setErrorMessage('');
       console.log(response.data);
-      navigate(`/${role}`);
+      setTimeout(() => {
+        navigate(`/${role}`);
+      }, 2000); // Redirect after 2 seconds
     } catch (error) {
-      console.error('Error:', error.response ? error.response.data : error.message);
+      if (error.response && error.response.data) {
+        const errorData = error.response.data;
+        if (isSignUp && errorData.message.includes('Email already exists')) {
+          setErrorMessage('Email already exists. Please sign in.');
+        } else if (!isSignUp && errorData.message.includes('Incorrect password')) {
+          setErrorMessage('Password is incorrect. Please try again.');
+        } else if (!isSignUp && errorData.message.includes('User not found')) {
+          setErrorMessage('Email does not exist. Please sign up.');
+        } else {
+          setErrorMessage(errorData.message);
+        }
+      } else {
+        setErrorMessage(error.message);
+      }
+      setSuccessMessage('');
     }
   };
 
@@ -32,6 +56,8 @@ const Auth = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
         <h2 className="text-2xl font-bold text-center text-gray-700">{isSignUp ? 'Sign Up' : 'Sign In'}</h2>
+        {successMessage && <p className="text-green-500 text-center">{successMessage}</p>}
+        {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
           {isSignUp && (
             <div>
