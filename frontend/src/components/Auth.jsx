@@ -31,7 +31,7 @@ const Auth = ({ role }) => {
       setErrorMessage('');
       console.log(response.data);
       setTimeout(() => {
-        navigate(`/${role}`);
+        navigate(`/${role}/add-product`);
       }, 2000); // Redirect after 2 seconds
     } catch (error) {
       if (error.response && error.response.data) {
