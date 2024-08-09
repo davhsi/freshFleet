@@ -27,12 +27,24 @@ const Auth = ({ role }) => {
         email,
         password,
       });
+
       setSuccessMessage(isSignUp ? 'Sign up successful!' : 'Sign in successful!');
       setErrorMessage('');
-      console.log(response.data);
-      setTimeout(() => {
-        navigate(`/${role}/add-product`);
-      }, 2000); // Redirect after 2 seconds
+      
+      if (!isSignUp) {
+        // Assuming the backend returns vendorId on login
+        const vendorId = response.data.vendorId;
+        localStorage.setItem('vendorId', vendorId);  // Store vendorId in local storage
+
+        setTimeout(() => {
+          navigate('/add-product');
+        }, 2000);
+      } else {
+        // For sign-up, automatically switch to sign-in after a delay
+        setTimeout(() => {
+          setIsSignUp(false);
+        }, 2000);
+      }
     } catch (error) {
       if (error.response && error.response.data) {
         const errorData = error.response.data;
@@ -46,7 +58,7 @@ const Auth = ({ role }) => {
           setErrorMessage(errorData.message);
         }
       } else {
-        setErrorMessage(error.message);
+        setErrorMessage('An error occurred. Please try again.');
       }
       setSuccessMessage('');
     }
