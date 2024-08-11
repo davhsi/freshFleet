@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../styles/tailwind.css';
@@ -13,7 +13,6 @@ const Auth = ({ role }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Reset messages when isSignUp changes
     setSuccessMessage('');
     setErrorMessage('');
   }, [isSignUp]);
@@ -27,12 +26,22 @@ const Auth = ({ role }) => {
         email,
         password,
       });
+
       setSuccessMessage(isSignUp ? 'Sign up successful!' : 'Sign in successful!');
       setErrorMessage('');
-      console.log(response.data);
-      setTimeout(() => {
-        navigate(`/${role}`);
-      }, 2000); // Redirect after 2 seconds
+
+      if (!isSignUp) {
+        const vendorId = response.data.vendorId;
+        localStorage.setItem('vendorId', vendorId);
+
+        setTimeout(() => {
+          navigate('/add-product');
+        }, 2000);
+      } else {
+        setTimeout(() => {
+          setIsSignUp(false);
+        }, 2000);
+      }
     } catch (error) {
       if (error.response && error.response.data) {
         const errorData = error.response.data;
@@ -46,22 +55,23 @@ const Auth = ({ role }) => {
           setErrorMessage(errorData.message);
         }
       } else {
-        setErrorMessage(error.message);
+        setErrorMessage('An error occurred. Please try again.');
       }
       setSuccessMessage('');
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
-        <h2 className="text-2xl font-bold text-center text-gray-700">{isSignUp ? 'Sign Up' : 'Sign In'}</h2>
+    <div className="flex items-center justify-end min-h-screen bg-cover bg-center" 
+         style={{ backgroundImage: "url('/loginPage.jpeg')" }}>
+      <div className="w-full max-w-md p-8 m-8 space-y-6 bg-white rounded shadow-md">
+        <h2 className="text-2xl font-bold text-left text-green-700">{isSignUp ? 'Sign Up' : 'Sign In'}</h2>
         {successMessage && <p className="text-green-500 text-center">{successMessage}</p>}
         {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
           {isSignUp && (
             <div>
-              <label className="block text-gray-600">Name:</label>
+              <label className="block text-green-800">Name:</label>
               <input
                 type="text"
                 value={name}
@@ -72,7 +82,7 @@ const Auth = ({ role }) => {
             </div>
           )}
           <div>
-            <label className="block text-gray-600">Email:</label>
+            <label className="block text-green-800">Email:</label>
             <input
               type="email"
               value={email}
@@ -82,7 +92,7 @@ const Auth = ({ role }) => {
             />
           </div>
           <div>
-            <label className="block text-gray-600">Password:</label>
+            <label className="block text-green-800">Password:</label>
             <input
               type="password"
               value={password}
@@ -93,14 +103,14 @@ const Auth = ({ role }) => {
           </div>
           <button
             type="submit"
-            className="w-full px-4 py-2 font-bold text-white bg-indigo-500 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            className="w-full px-4 py-2 font-bold text-white bg-green-600 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-indigo-400"
           >
             {isSignUp ? 'Sign Up' : 'Sign In'}
           </button>
         </form>
         <button
           onClick={() => setIsSignUp(!isSignUp)}
-          className="w-full mt-4 text-sm font-bold text-indigo-500 hover:underline"
+          className="w-full mt-4 text-sm font-bold text-green-600 hover:underline"
         >
           Switch to {isSignUp ? 'Sign In' : 'Sign Up'}
         </button>
