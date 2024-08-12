@@ -9,7 +9,13 @@ exports.signup = async (req, res) => {
     }
     const customer = new Customer({ name, email, password });
     await customer.save();
-    res.status(201).json({ message: 'Customer created successfully' });
+    
+    // Return customer name and id after successful signup
+    res.status(201).json({ 
+      message: 'Customer created successfully', 
+      customerName: customer.name, 
+      customerId: customer._id 
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -25,7 +31,13 @@ exports.signin = async (req, res) => {
     if (customer.password !== password) {
       return res.status(400).json({ message: 'Incorrect password' });
     }
-    res.status(200).json({ message: 'Customer signed in successfully' });
+
+    // Return customer name and id after successful signin
+    res.status(200).json({ 
+      message: 'Customer signed in successfully', 
+      customerName: customer.name, 
+      customerId: customer._id 
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

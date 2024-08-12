@@ -4,6 +4,7 @@ import CustomerAuth from './components/CustomerAuth';
 import VendorAuth from './components/VendorAuth'; 
 import UserRoleSelection from './components/UserRoleSelection'; 
 import AddProduct from './components/AddProduct';
+import CustomerHome from './components/CustomerHome';
 
 const App = () => {
   return (
@@ -12,7 +13,8 @@ const App = () => {
         <Route path="/" element={<UserRoleSelection />} />
         <Route path="/auth/customer" element={<CustomerAuth />} />
         <Route path="/auth/vendor" element={<VendorAuth />} />
-        <Route path="/add-product" element={<AddProduct />} />  
+        <Route path="/add-product" element={<AddProduct />} />
+        <Route path="/home" element={<CustomerHome />} />   
         
       </Routes>
     </Router>

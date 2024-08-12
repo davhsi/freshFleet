@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../styles/tailwind.css';
+import backgroundImage from '../assets/loginPage.jpeg'
+import { API_BASE_URL } from '../config';
 
 const Auth = ({ role }) => {
   const [name, setName] = useState('');
@@ -13,67 +15,77 @@ const Auth = ({ role }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Reset messages when isSignUp changes
     setSuccessMessage('');
     setErrorMessage('');
   }, [isSignUp]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage('');
+    setSuccessMessage('');
+
     try {
-      const endpoint = isSignUp ? 'signup' : 'signin';
-      const response = await axios.post(`http://localhost:5000/api/${role}/${endpoint}`, {
-        name,
-        email,
-        password,
-      });
+        // Determine the correct URL based on the isSignUp state
+        const url = `${API_BASE_URL}/api/${role}/${isSignUp ? 'signup' : 'signin'}`;
+        
+        // Prepare the data to be sent
+        const data = isSignUp 
+            ? { name, email, password } // Include name for signup
+            : { email, password }; // Only email and password for signin
 
-      setSuccessMessage(isSignUp ? 'Sign up successful!' : 'Sign in successful!');
-      setErrorMessage('');
-      
-      if (!isSignUp) {
-        // Assuming the backend returns vendorId on login
-        const vendorId = response.data.vendorId;
-        localStorage.setItem('vendorId', vendorId);  // Store vendorId in local storage
+        // Make the request
+        const response = await axios.post(url, data);
 
+        // Extract name and ID based on role
+        const retrievedName = response.data[`${role}Name`]; // Adjusted to match backend
+        const id = response.data[`${role}Id`]; // Use dynamic key based on role
+
+        // Save data to localStorage
+        localStorage.setItem(`${role}Name`, retrievedName);
+        localStorage.setItem(`${role}Id`, id);
+
+        // Set success message
+        setSuccessMessage(`${role.charAt(0).toUpperCase() + role.slice(1)} ${isSignUp ? 'sign up' : 'sign in'} successful! Redirecting to your dashboard.`);
+
+        // Redirect based on role
         setTimeout(() => {
-          navigate('/add-product');
+            if (role === 'vendor') {
+                navigate('/add-product');
+            } else if (role === 'customer') {
+                navigate('/home');
+            }
         }, 2000);
-      } else {
-        // For sign-up, automatically switch to sign-in after a delay
-        setTimeout(() => {
-          setIsSignUp(false);
-        }, 2000);
-      }
     } catch (error) {
-      if (error.response && error.response.data) {
-        const errorData = error.response.data;
-        if (isSignUp && errorData.message.includes('Email already exists')) {
-          setErrorMessage('Email already exists. Please sign in.');
-        } else if (!isSignUp && errorData.message.includes('Incorrect password')) {
-          setErrorMessage('Password is incorrect. Please try again.');
-        } else if (!isSignUp && errorData.message.includes('User not found')) {
-          setErrorMessage('Email does not exist. Please sign up.');
+        // Log error for debugging
+        console.error('Error during sign-up/sign-in:', error);
+
+        // Handle specific error cases
+        if (error.response && error.response.data) {
+            const errorData = error.response.data;
+            if (errorData.message.includes('Incorrect password')) {
+                setErrorMessage('Password is incorrect. Please try again.');
+            } else if (errorData.message.includes('Email does not exist')) {
+                setErrorMessage('Email does not exist. Please sign up.');
+            } else {
+                setErrorMessage(errorData.message);
+            }
         } else {
-          setErrorMessage(errorData.message);
+            setErrorMessage('An error occurred. Please try again.');
         }
-      } else {
-        setErrorMessage('An error occurred. Please try again.');
-      }
-      setSuccessMessage('');
     }
-  };
+};
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
-        <h2 className="text-2xl font-bold text-center text-gray-700">{isSignUp ? 'Sign Up' : 'Sign In'}</h2>
+    <div className="flex items-center justify-end min-h-screen bg-cover bg-center" 
+         style={{ backgroundImage: `url(${backgroundImage})`}}>
+      <div className="w-full max-w-md p-8 m-8 space-y-6 bg-white rounded shadow-md">
+        <h2 className="text-2xl font-bold text-left text-green-700">{isSignUp ? 'Sign Up' : 'Sign In'}</h2>
         {successMessage && <p className="text-green-500 text-center">{successMessage}</p>}
         {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
           {isSignUp && (
             <div>
-              <label className="block text-gray-600">Name:</label>
+              <label className="block text-green-800">Name:</label>
               <input
                 type="text"
                 value={name}
@@ -84,7 +96,7 @@ const Auth = ({ role }) => {
             </div>
           )}
           <div>
-            <label className="block text-gray-600">Email:</label>
+            <label className="block text-green-800">Email:</label>
             <input
               type="email"
               value={email}
@@ -94,7 +106,7 @@ const Auth = ({ role }) => {
             />
           </div>
           <div>
-            <label className="block text-gray-600">Password:</label>
+            <label className="block text-green-800">Password:</label>
             <input
               type="password"
               value={password}
@@ -105,14 +117,14 @@ const Auth = ({ role }) => {
           </div>
           <button
             type="submit"
-            className="w-full px-4 py-2 font-bold text-white bg-indigo-500 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            className="w-full px-4 py-2 font-bold text-white bg-green-600 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-indigo-400"
           >
             {isSignUp ? 'Sign Up' : 'Sign In'}
           </button>
         </form>
         <button
           onClick={() => setIsSignUp(!isSignUp)}
-          className="w-full mt-4 text-sm font-bold text-indigo-500 hover:underline"
+          className="w-full mt-4 text-sm font-bold text-green-600 hover:underline"
         >
           Switch to {isSignUp ? 'Sign In' : 'Sign Up'}
         </button>

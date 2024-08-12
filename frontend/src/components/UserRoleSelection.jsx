@@ -1,5 +1,5 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import backgroundImage from '../assets/Fresh.jpeg'; 
 
 const UserRoleSelection = () => {
   const navigate = useNavigate();
@@ -9,21 +9,25 @@ const UserRoleSelection = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <h2 className="text-3xl font-semibold mb-10 text-gray-800">Welcome to Fresh Fleet</h2>
-      <div className="space-x-4">
-        <button 
-          onClick={() => handleRoleSelect('customer')} 
-          className="px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg shadow-md transition duration-200 hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-        >
-          Customer
-        </button>
-        <button 
-          onClick={() => handleRoleSelect('vendor')} 
-          className="px-5 py-2.5 bg-green-600 text-white font-medium rounded-lg shadow-md transition duration-200 hover:bg-green-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400"
-        >
-          Vendor
-        </button>
+    <div 
+      className="relative min-h-screen bg-cover bg-center flex items-center justify-center"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
+      <div className="absolute right-8 sm:right-12 md:right-16 lg:right-20 top-[50%] transform -translate-y-1/2 mr-10 sm:mr-20 md:mr-30 lg:mr-40">
+        <div className="flex flex-col space-y-4">
+          <button 
+            onClick={() => handleRoleSelect('customer')} 
+            className="px-6 py-3 bg-blue-700 text-white font-semibold rounded-lg shadow-lg transition duration-300 hover:bg-blue-800 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-500"
+          >
+            Customer
+          </button>
+          <button 
+            onClick={() => handleRoleSelect('vendor')} 
+            className="px-6 py-3 bg-green-700 text-white font-semibold rounded-lg shadow-lg transition duration-300 hover:bg-green-800 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-green-500"
+          >
+            Vendor
+          </button>
+        </div>
       </div>
     </div>
   );
