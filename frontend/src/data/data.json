@@ -14,7 +14,7 @@
         "Omega-3 Fatty Acid": "0.05 mg"
       },
       "fibers": "2.4",
-      "image": "src/assets/apple.jpg"
+      "image": "apple.jpg"
     },
     {
       "name": "Banana",
@@ -30,7 +30,7 @@
         "Omega-3 Fatty Acid": "0.03 mg"
       },
       "fibers": "2.6",
-      "image": "src/assets/banana.jpg"
+      "image": "banana.jpg"
     },
     {
       "name": "Orange",
@@ -46,7 +46,7 @@
         "Omega-3 Fatty Acid": "0.02 mg"
       },
       "fibers": "2.4",
-      "image": "src/assets/orange.jpg"
+      "image": "orange.jpg"
     },
     {
       "name": "Strawberry",
@@ -62,7 +62,7 @@
         "Omega-3 Fatty Acid": "0.1 mg"
       },
       "fibers": "2.0",
-      "image": "src/assets/strawberry.jpg"
+      "image": "strawberry.jpg"
     },
     {
       "name": "Grapes",
@@ -78,7 +78,7 @@
         "Omega-3 Fatty Acid": "0.05 mg"
       },
       "fibers": "0.9",
-      "image": "src/assets/grapes.jpg"
+      "image": "grapes.jpg"
     },
     {
       "name": "Pineapple",
@@ -94,7 +94,7 @@
         "Omega-3 Fatty Acid": "0.02 mg"
       },
       "fibers": "1.4",
-      "image": "src/assets/pineapple.jpg"
+      "image": "pineapple.jpg"
     },
     {
       "name": "Mango",
@@ -110,7 +110,7 @@
         "Omega-3 Fatty Acid": "0.1 mg"
       },
       "fibers": "1.6",
-      "image": "src/assets/mango.jpg"
+      "image": "mango.jpg"
     },
     {
       "name": "Watermelon",
@@ -126,7 +126,7 @@
         "Omega-3 Fatty Acid": "0.02 mg"
       },
       "fibers": "0.4",
-      "image": "src/assets/watermelon.jpg"
+      "image": "watermelon.jpg"
     },
     {
       "name": "Blueberry",
@@ -142,7 +142,7 @@
         "Omega-3 Fatty Acid": "0.1 mg"
       },
       "fibers": "2.4",
-      "image": "src/assets/blueberry.jpg"
+      "image": "blueberry.jpg"
     },
     {
       "name": "Kiwi",
@@ -158,7 +158,7 @@
         "Omega-3 Fatty Acid": "0.1 mg"
       },
       "fibers": "3.0",
-      "image": "src/assets/kiwi.jpg"
+      "image": "kiwi.jpg"
     }
   ],
   "vegetables": [
@@ -176,7 +176,7 @@
         "Omega-3 Fatty Acid": "0.1 mg"
       },
       "fibers": "2.8",
-      "image": "src/assets/carrot.jpg"
+      "image": "carrot.jpg"
     },
     {
       "name": "Beetroot",
@@ -192,7 +192,7 @@
         "Omega-3 Fatty Acid": "0.1 mg"
       },
       "fibers": "2.8",
-      "image": "src/assets/beetroot.jpg"
+      "image": "beetroot.jpg"
     },
     {
       "name": "Onion",
@@ -208,7 +208,7 @@
         "Omega-3 Fatty Acid": "0.05 mg"
       },
       "fibers": "1.7",
-      "image": "src/assets/onion.jpg"
+      "image": "onion.jpg"
     },
     {
       "name": "Garlic",
@@ -224,7 +224,7 @@
         "Omega-3 Fatty Acid": "0.1 mg"
       },
       "fibers": "2.1",
-      "image": "src/assets/garlic.jpg"
+      "image": "garlic.jpg"
     },
     {
       "name": "Broccoli",
@@ -240,7 +240,7 @@
         "Omega-3 Fatty Acid": "0.1 mg"
       },
       "fibers": "2.6",
-      "image": "src/assets/broccoli.jpg"
+      "image": "broccoli.jpg"
     },
     {
       "name": "Spinach",
@@ -256,7 +256,7 @@
         "Omega-3 Fatty Acid": "0.1 mg"
       },
       "fibers": "2.2",
-      "image": "src/assets/spinach.jpg"
+      "image": "spinach.jpg"
     },
     {
       "name": "Cucumber",
@@ -272,7 +272,7 @@
         "Omega-3 Fatty Acid": "0.03 mg"
       },
       "fibers": "0.5",
-      "image": "src/assets/cucumber.jpg"
+      "image": "cucumber.jpg"
     },
     {
       "name": "Tomato",
@@ -288,7 +288,7 @@
         "Omega-3 Fatty Acid": "0.03 mg"
       },
       "fibers": "1.2",
-      "image": "src/assets/tomato.jpg"
+      "image": "tomato.jpg"
     },
     {
       "name": "Bell Pepper",
@@ -304,7 +304,7 @@
         "Omega-3 Fatty Acid": "0.03 mg"
       },
       "fibers": "1.7",
-      "image": "src/assets/bell_pepper.jpg"
+      "image": "bell_pepper.jpg"
     }
   ]
 }

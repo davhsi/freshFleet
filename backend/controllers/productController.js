@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const Vendor = require('../models/Vendor'); 
 
 // Create a new product
 exports.createProduct = async (req, res) => {
@@ -99,4 +100,29 @@ exports.deleteProduct = async (req, res) => {
     }
 };
 
+exports.getProductDetailsByName = async (req, res) => {
+    try {
+        // Find all products by name
+        const products = await Product.find({ name: req.params.name });
+        if (!products.length) {
+            return res.status(404).json({ message: 'Products not found' });
+        }
 
+        // Fetch details for each product's vendor
+        const productDetailsPromises = products.map(async (product) => {
+            const vendor = await Vendor.findById(product.vendorId);
+            return {
+                ...product._doc,
+                vendorName: vendor ? vendor.name : 'Unknown Vendor',
+                vendorContact: vendor ? vendor.email : 'No Contact'
+            };
+        });
+
+        const productDetails = await Promise.all(productDetailsPromises);
+
+        res.json(productDetails);
+    } catch (error) {
+        console.error('Error fetching product details:', error);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
