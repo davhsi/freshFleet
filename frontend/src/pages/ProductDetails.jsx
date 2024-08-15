@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
 import data from '../data/data.json';
-import ProductInfo from '../components/ProductInfo';
-import VendorOfferings from '../components/VendorOfferings';
-import SortOptions from '../components/SortOptions';
+import ProductInfo from '../components/products/ProductInfo';
+import VendorOfferings from '../components/products/VendorOfferings';
+import SortOptions from '../components/products/SortOptions';
 
 const ProductDetails = () => {
   const { name } = useParams();

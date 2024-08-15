@@ -1,5 +1,6 @@
 import React from 'react';
-import Auth from './Auth'; 
+import Auth from '../../pages/Auth';
+
 const VendorAuth = () => {
   return <Auth role="vendor" />;
 };

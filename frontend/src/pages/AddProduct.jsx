@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
-import AddProductForm from '../components/AddProductForm';
-import VendorProductsTable from '../components/VendorProductsTable';
+import AddProductForm from '../components/products/AddProductForm';
+import VendorProductsTable from '../components/products/VendorProductsTable';
 
 const AddProduct = () => {
     const [products, setProducts] = useState([]);
