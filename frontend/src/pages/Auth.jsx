@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../styles/tailwind.css';
-import backgroundImage from '../assets/loginPage.jpeg';
 import { API_BASE_URL } from '../config';
 import AuthForm from '../components/auth/AuthForm';
 import SwitchAuthMode from '../components/auth/SwitchAuthMode';
@@ -70,7 +69,7 @@ const Auth = ({ role }) => {
 
     return (
         <div className="flex items-center justify-end min-h-screen bg-cover bg-center" 
-             style={{ backgroundImage: `url(${backgroundImage})`}}>
+             style={{ backgroundImage: `url('/loginPage.jpeg')`}}>
             <div className="w-full max-w-md p-8 m-8 space-y-6 bg-white rounded shadow-md">
                 <h2 className="text-2xl font-bold text-left text-green-700">{isSignUp ? 'Sign Up' : 'Sign In'}</h2>
                 {successMessage && <p className="text-green-500 text-center">{successMessage}</p>}

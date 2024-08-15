@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ProductCard from '../components/products/ProductCard';
+import ProductCard from '../components/customer/ProductCard';
 import data from '../data/data.json';
 
 const CustomerHome = () => {

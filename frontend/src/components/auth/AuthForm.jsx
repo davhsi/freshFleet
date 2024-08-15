@@ -1,4 +1,3 @@
-// components/AuthForm.js
 import React from 'react';
 
 const AuthForm = ({ isSignUp, name, email, password, setName, setEmail, setPassword, handleSubmit }) => {

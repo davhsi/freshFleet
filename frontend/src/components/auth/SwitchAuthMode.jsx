@@ -1,4 +1,3 @@
-// components/SwitchAuthMode.js
 import React from 'react';
 
 const SwitchAuthMode = ({ isSignUp, toggleAuthMode }) => {
