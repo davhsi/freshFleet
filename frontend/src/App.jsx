@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CustomerAuth from './components/CustomerAuth'; 
 import VendorAuth from './components/VendorAuth'; 
 import UserRoleSelection from './components/UserRoleSelection'; 
-import AddProduct from './components/AddProduct';
-import CustomerHome from './components/CustomerHome';
-import ProductDetails from './components/ProductDetails';
+import AddProduct from './pages/AddProduct';
+import CustomerHome from './pages/CustomerHome';
+import ProductDetails from './pages/ProductDetails';
 
 const App = () => {
   return (
