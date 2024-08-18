@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ProductCard from '../components/customer/ProductCard';
 import data from '../data/data.json';
 
@@ -6,20 +7,18 @@ const CustomerHome = () => {
   const [customerName, setCustomerName] = useState('Guest');
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Retrieve the customer name from localStorage
     const storedName = localStorage.getItem('customerName');
     if (storedName && storedName.trim()) {
       setCustomerName(storedName);
     }
 
-    // Flatten the products data by combining fruits and vegetables
     const allProducts = [...data.fruits, ...data.vegetables];
     setProducts(allProducts);
   }, []);
 
-  // Filter products based on the search term
   const filteredProducts = products.filter(product =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -41,6 +40,15 @@ const CustomerHome = () => {
         />
       </div>
 
+      <div className="flex justify-end mb-6"> {/* Adjusted layout */}
+        <button
+          onClick={() => navigate('/cart')}
+          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+        >
+          View Cart
+        </button>
+      </div>
+
       <div className="flex flex-wrap gap-6">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product, index) => (
@@ -55,3 +63,4 @@ const CustomerHome = () => {
 };
 
 export default CustomerHome;
+  

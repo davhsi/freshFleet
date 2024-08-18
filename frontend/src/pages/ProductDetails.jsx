@@ -6,6 +6,7 @@ import data from '../data/data.json';
 import ProductInfo from '../components/customer/ProductInfo';
 import VendorOfferings from '../components/customer/VendorOfferings';
 import SortOptions from '../components/customer/SortOptions';
+import { useCart } from '../context/CartContext'; 
 
 const ProductDetails = () => {
   const { name } = useParams();
@@ -13,6 +14,7 @@ const ProductDetails = () => {
   const [productInfo, setProductInfo] = useState(null);
   const [sortOption, setSortOption] = useState('price');
   const [sortOrder, setSortOrder] = useState('desc');
+  const { addToCart } = useCart(); 
 
   useEffect(() => {
     const fetchProductData = async () => {
@@ -76,7 +78,7 @@ const ProductDetails = () => {
           />
           <VendorOfferings
             sortedProductData={sortedProductData}
-            handleAddToCart={(product) => console.log(`Adding ${product.name} to cart`)}
+            handleAddToCart={addToCart} // Pass the addToCart function
           />
         </div>
       </div>
