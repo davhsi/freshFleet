@@ -15,6 +15,7 @@ const ProductDetails = () => {
   const [sortOption, setSortOption] = useState('price');
   const [sortOrder, setSortOrder] = useState('desc');
   const { addToCart } = useCart(); 
+  const userId = localStorage.getItem('customerId'); 
 
   useEffect(() => {
     const fetchProductData = async () => {
@@ -78,7 +79,8 @@ const ProductDetails = () => {
           />
           <VendorOfferings
             sortedProductData={sortedProductData}
-            handleAddToCart={addToCart} // Pass the addToCart function
+            handleAddToCart={addToCart}
+            userId={userId} 
           />
         </div>
       </div>

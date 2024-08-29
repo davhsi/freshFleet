@@ -7,6 +7,7 @@ require('dotenv').config();
 const customerRoutes = require('./routes/customerRoutes');
 const vendorRoutes = require('./routes/vendorRoutes');
 const productRoutes = require('./routes/productRoutes');
+const cartRoutes = require('./routes/cartRoutes')
 
 const app = express();
 
@@ -29,6 +30,7 @@ mongoose.connect(mongoUri, {
 app.use('/api/customer', customerRoutes);
 app.use('/api/vendor', vendorRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/cart', cartRoutes);
 
 // Start server
 app.listen(PORT, () => {

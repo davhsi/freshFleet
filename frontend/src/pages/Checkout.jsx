@@ -1,16 +1,28 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useCart } from '../context/CartContext';
+import { API_BASE_URL } from '.././config';
 
-const Checkout = () => {
+
+const Checkout = ({ userId }) => {
   const { cartItems, clearCart } = useCart();
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('Credit Card');
 
-  const handleCheckout = () => {
-    console.log('Order placed:', { name, address, paymentMethod, cartItems });
-    clearCart();
-    alert('Order placed successfully!');
+  const handleCheckout = async () => {
+    try {
+      // Logic to process order (not shown)
+      console.log('Order placed:', { name, address, paymentMethod, cartItems });
+
+      // Clear the cart in the database
+      await axios.delete(`${API_BASE_URL}/api/cart/clear/${userId}`);
+      clearCart();
+
+      alert('Order placed successfully!');
+    } catch (error) {
+      console.error('Error placing order', error);
+    }
   };
 
   return (

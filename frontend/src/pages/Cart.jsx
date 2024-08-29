@@ -1,41 +1,54 @@
-import React from 'react';
-import { useCart } from '../context/CartContext';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { API_BASE_URL } from '../config';                                         
 
-const Cart = () => {
-  const { cartItems, removeFromCart, clearCart } = useCart();
+const Cart = ({ userId }) => {
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (userId) {
+      axios.get(`${API_BASE_URL}/api/cart/${userId}`)
+        .then(response => {
+          console.log('Cart Response:', response.data); // Log response data
+          setCartItems(Array.isArray(response.data.items) ? response.data.items : []);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error('Error loading cart:', err);
+          setError(err.message || 'Error loading cart');
+          setLoading(false);
+        });
+    } else {
+      setError('User ID not found');
+      setLoading(false);
+    }
+  }, [userId]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error loading cart: {error}</div>;
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
+    <div>
+      <h1>Your Cart</h1>
       {cartItems.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <p>Your cart is empty</p>
       ) : (
-        <>
+        <ul>
           {cartItems.map((item, index) => (
-            <div key={index} className="border border-gray-300 rounded-lg p-4 shadow-lg mb-4">
-              <h4 className="text-lg font-semibold">{item.name}</h4>
-              <p className="text-sm text-gray-600">Vendor: {item.vendorName}</p>
-              <p className="text-sm text-gray-600">Price: ₹{item.pricePerKg}</p>
-              <button
-                onClick={() => removeFromCart(index)}
-                className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-              >
-                Remove
-              </button>
-            </div>
+            item ? (
+              <li key={index}>
+                <div>Product Name: {item.name || 'Unknown'}</div>
+                <div>Price Per Kg: {item.pricePerKg || 'N/A'}</div>
+                <div>Vendor: {item.vendorName || 'Unknown'}</div>
+                <div>Quantity: {item.quantity || 0}</div>
+              </li>
+            ) : (
+              <li key={index}>Invalid item data</li>
+            )
           ))}
-          <button
-            onClick={clearCart}
-            className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-          >
-            Clear Cart
-          </button>
-          <button
-            className="mt-4 ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-          >
-            Proceed to Checkout
-          </button>
-        </>
+        </ul>
       )}
     </div>
   );
