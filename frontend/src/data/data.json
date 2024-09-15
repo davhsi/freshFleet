@@ -161,6 +161,8 @@
       "image": "kiwi.jpg"
     }
   ],
+
+
   "vegetables": [
     {
       "name": "Carrot",
@@ -305,6 +307,249 @@
       },
       "fibers": "1.7",
       "image": "bell_pepper.jpg"
+    } 
+  ],
+  "ingredients": [
+    {
+      "name": "Basmati Rice",
+      "calories": "130",
+      "carbohydrates": "28",
+      "protein": "2.7",
+      "vitamins": {
+        "Vitamin A": "0 mg",
+        "Vitamin B": "0.1 mg",
+        "Vitamin C": "0 mg",
+        "Vitamin D": "0 mg",
+        "Vitamin B12": "0 mg",
+        "Omega-3 Fatty Acid": "0 mg"
+      },
+      "fibers": "0.4",
+      "image": "basmati_rice.jpeg"
+    },
+    {
+      "name": "Chicken",
+      "calories": "239",
+      "carbohydrates": "0",
+      "protein": "27",
+      "vitamins": {
+        "Vitamin A": "0 mg",
+        "Vitamin B": "0.5 mg",
+        "Vitamin C": "0 mg",
+        "Vitamin D": "0.3 mg",
+        "Vitamin B12": "0.3 mg",
+        "Omega-3 Fatty Acid": "0.05 mg"
+      },
+      "fibers": "0",
+      "image": "chicken.jpeg"
+    },
+    {
+      "name": "Curd",
+      "calories": "59",
+      "carbohydrates": "3.6",
+      "protein": "3.5",
+      "vitamins": {
+        "Vitamin A": "0.1 mg",
+        "Vitamin B": "0.2 mg",
+        "Vitamin C": "0 mg",
+        "Vitamin D": "0.8 mg",
+        "Vitamin B12": "0.5 mg",
+        "Omega-3 Fatty Acid": "0.03 mg"
+      },
+      "fibers": "0",
+      "image": "curd.jpeg"
+    },
+    {
+      "name": "Onion",
+      "calories": "40",
+      "carbohydrates": "9",
+      "protein": "1.1",
+      "vitamins": {
+        "Vitamin A": "0.002 mg",
+        "Vitamin B": "0.1 mg",
+        "Vitamin C": "7.4 mg",
+        "Vitamin D": "0 mg",
+        "Vitamin B12": "0 mg",
+        "Omega-3 Fatty Acid": "0.05 mg"
+      },
+      "fibers": "1.7",
+      "image": "onion.jpg"
+    },
+    {
+      "name": "Tomato",
+      "calories": "18",
+      "carbohydrates": "3.9",
+      "protein": "0.9",
+      "vitamins": {
+        "Vitamin A": "0.042 mg",
+        "Vitamin B": "0.07 mg",
+        "Vitamin C": "13.7 mg",
+        "Vitamin D": "0 mg",
+        "Vitamin B12": "0 mg",
+        "Omega-3 Fatty Acid": "0.03 mg"
+      },
+      "fibers": "1.2",
+      "image": "tomato.jpg"
+    },
+    {
+      "name": "Ginger Garlic Paste",
+      "calories": "65",
+      "carbohydrates": "14",
+      "protein": "2.5",
+      "vitamins": {
+        "Vitamin A": "0 mg",
+        "Vitamin B": "0.5 mg",
+        "Vitamin C": "3.5 mg",
+        "Vitamin D": "0 mg",
+        "Vitamin B12": "0 mg",
+        "Omega-3 Fatty Acid": "0.03 mg"
+      },
+      "fibers": "1.8",
+      "image": "ginger_garlic_paste.jpeg"
+    },
+    {
+      "name": "Biryani Masala",
+      "calories": "315",
+      "carbohydrates": "50",
+      "protein": "7",
+      "vitamins": {
+        "Vitamin A": "0 mg",
+        "Vitamin B": "2.1 mg",
+        "Vitamin C": "0 mg",
+        "Vitamin D": "0 mg",
+        "Vitamin B12": "0 mg",
+        "Omega-3 Fatty Acid": "0.1 mg"
+      },
+      "fibers": "6.5",
+      "image": "biryani_masala.jpeg"
+    },
+    {
+      "name": "Ghee",
+      "calories": "900",
+      "carbohydrates": "0",
+      "protein": "0",
+      "vitamins": {
+        "Vitamin A": "0.9 mg",
+        "Vitamin B": "0.1 mg",
+        "Vitamin C": "0 mg",
+        "Vitamin D": "0 mg",
+        "Vitamin B12": "0 mg",
+        "Omega-3 Fatty Acid": "0 mg"
+      },
+      "fibers": "0",
+      "image": "ghee.jpeg"
+    },
+    {
+      "name": "Mint Leaves",
+      "calories": "70",
+      "carbohydrates": "14",
+      "protein": "3",
+      "vitamins": {
+        "Vitamin A": "0.9 mg",
+        "Vitamin B": "0.1 mg",
+        "Vitamin C": "31.8 mg",
+        "Vitamin D": "0 mg",
+        "Vitamin B12": "0 mg",
+        "Omega-3 Fatty Acid": "0.2 mg"
+      },
+      "fibers": "8.0",
+      "image": "mint.jpeg"
+    },
+    {
+      "name": "Rice",
+      "calories": "130",
+      "carbohydrates": "28",
+      "protein": "2.7",
+      "vitamins": {
+        "Vitamin A": "0 mg",
+        "Vitamin B": "0.1 mg",
+        "Vitamin C": "0 mg",
+        "Vitamin D": "0 mg",
+        "Vitamin B12": "0 mg",
+        "Omega-3 Fatty Acid": "0 mg"
+      },
+      "fibers": "0.4",
+      "image": "rice.jpeg"
+    },
+    {
+      "name": "Toor Dal",
+      "calories": "343",
+      "carbohydrates": "63",
+      "protein": "22",
+      "vitamins": {
+        "Vitamin A": "0 mg",
+        "Vitamin B": "1.1 mg",
+        "Vitamin C": "0 mg",
+        "Vitamin D": "0 mg",
+        "Vitamin B12": "0 mg",
+        "Omega-3 Fatty Acid": "0.1 mg"
+      },
+      "fibers": "15.0",
+      "image": "toor_dal.jpeg"
+    },
+    {
+      "name": "Tamarind",
+      "calories": "239",
+      "carbohydrates": "62",
+      "protein": "2",
+      "vitamins": {
+        "Vitamin A": "0.1 mg",
+        "Vitamin B": "0.1 mg",
+        "Vitamin C": "3.5 mg",
+        "Vitamin D": "0 mg",
+        "Vitamin B12": "0 mg",
+        "Omega-3 Fatty Acid": "0.1 mg"
+      },
+      "fibers": "5.0",
+      "image": "tamarind.jpeg"
+    },
+    {
+      "name": "Sambar Powder",
+      "calories": "350",
+      "carbohydrates": "60",
+      "protein": "10",
+      "vitamins": {
+        "Vitamin A": "0 mg",
+        "Vitamin B": "0.5 mg",
+        "Vitamin C": "0 mg",
+        "Vitamin D": "0 mg",
+        "Vitamin B12": "0 mg",
+        "Omega-3 Fatty Acid": "0.1 mg"
+      },
+      "fibers": "8.0",
+      "image": "sambar_powder.jpeg"
+    },
+    {
+      "name": "Rasam Powder",
+      "calories": "320",
+      "carbohydrates": "50",
+      "protein": "10",
+      "vitamins": {
+        "Vitamin A": "0 mg",
+        "Vitamin B": "0.5 mg",
+        "Vitamin C": "0 mg",
+        "Vitamin D": "0 mg",
+        "Vitamin B12": "0 mg",
+        "Omega-3 Fatty Acid": "0.1 mg"
+      },
+      "fibers": "5.5",
+      "image": "rasam_powder.jpeg"
+    },
+    {
+      "name": "Garlic",
+      "calories": "149",
+      "carbohydrates": "33",
+      "protein": "6",
+      "vitamins": {
+        "Vitamin A": "0 mg",
+        "Vitamin B": "1.2 mg",
+        "Vitamin C": "31 mg",
+        "Vitamin D": "0 mg",
+        "Vitamin B12": "0 mg",
+        "Omega-3 Fatty Acid": "0.05 mg"
+      },
+      "fibers": "2.1",
+      "image": "garlic.jpg"
     }
   ]
 }
+

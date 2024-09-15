@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProductCard from '../components/customer/ProductCard';
 import data from '../data/data.json';
@@ -15,7 +15,7 @@ const CustomerHome = () => {
       setCustomerName(storedName);
     }
 
-    const allProducts = [...data.fruits, ...data.vegetables];
+    const allProducts = [...data.fruits, ...data.vegetables, ...data.ingredients];
     setProducts(allProducts);
   }, []);
 
@@ -63,4 +63,3 @@ const CustomerHome = () => {
 };
 
 export default CustomerHome;
-  
