@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProductCard from '../components/customer/ProductCard';
 import data from '../data/data.json';
@@ -15,7 +15,7 @@ const CustomerHome = () => {
       setCustomerName(storedName);
     }
 
-    const allProducts = [...data.fruits, ...data.vegetables];
+    const allProducts = [...data.ingredients];
     setProducts(allProducts);
   }, []);
 
@@ -40,12 +40,18 @@ const CustomerHome = () => {
         />
       </div>
 
-      <div className="flex justify-end mb-6"> {/* Adjusted layout */}
+      <div className="flex justify-end mb-6">
         <button
           onClick={() => navigate('/cart')}
           className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
         >
           View Cart
+        </button>
+        <button
+          onClick={() => navigate('/recipes')}
+          className="ml-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+        >
+          Recipes
         </button>
       </div>
 
@@ -63,4 +69,3 @@ const CustomerHome = () => {
 };
 
 export default CustomerHome;
-  

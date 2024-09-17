@@ -1,4 +1,4 @@
-import React from 'react';
+//import React from 'react';
 
 const ProductInfo = ({ productInfo }) => {
   if (!productInfo) {
@@ -8,11 +8,13 @@ const ProductInfo = ({ productInfo }) => {
   return (
     <div className="flex-1">
       <div className="flex flex-col items-center mb-6">
-        <img
-          src={`/${productInfo.image}`}
-          alt={productInfo.name}
-          className="w-1/2 h-auto rounded-lg shadow-lg"
-        />
+        <div className="w-64 h-64 overflow-hidden rounded-lg shadow-lg bg-gray-200">
+          <img
+            src={`/${productInfo.image}`}
+            alt={productInfo.name}
+            className="object-cover w-full h-full"
+          />
+        </div>
         <h3 className="text-xl font-semibold mt-4">{productInfo.name}</h3>
       </div>
       <div className="border border-gray-300 rounded-lg p-4 shadow-lg">
