@@ -7,12 +7,12 @@ const RecipeProducts = () => {
   const { recipe } = location.state || {};
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);  // Add loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!recipe || !recipe.ingredients || recipe.ingredients.length === 0) {
       setError('No recipe or ingredients selected.');
-      setLoading(false);  // Stop loading if no recipe or ingredients are found
+      setLoading(false);
       return;
     }
 
@@ -23,18 +23,17 @@ const RecipeProducts = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const productData = await response.json();
-        
+
         // Log the product data for debugging
         console.log('Fetched products:', productData);
-        
-        // Remove duplicate products based on ID
-        const uniqueProducts = Array.from(new Set(productData.map(product => product.id)))
-          .map(id => productData.find(product => product.id === id));
 
-        // Filter products based on recipe ingredients
-        const matchingProducts = uniqueProducts.filter(product =>
+        // Transform ingredient names to match the image file names
+        const transformIngredientName = (name) => name.toLowerCase().replace(/\s+/g, '_');
+
+        // Filter products based on transformed ingredient names
+        const matchingProducts = productData.filter(product =>
           recipe.ingredients.some(ingredient =>
-            product.name.toLowerCase().includes(ingredient.toLowerCase())
+            transformIngredientName(product.name) === transformIngredientName(ingredient)
           )
         );
 
@@ -43,7 +42,7 @@ const RecipeProducts = () => {
         setError(`Error fetching products: ${error.message}`);
         console.error('Error fetching products:', error);
       } finally {
-        setLoading(false);  // Set loading to false once data is fetched
+        setLoading(false);
       }
     };
 
