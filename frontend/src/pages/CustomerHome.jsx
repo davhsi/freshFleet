@@ -15,7 +15,7 @@ const CustomerHome = () => {
       setCustomerName(storedName);
     }
 
-    const allProducts = [...data.fruits, ...data.vegetables, ...data.ingredients];
+    const allProducts = [...data.ingredients];
     setProducts(allProducts);
   }, []);
 

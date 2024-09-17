@@ -36,7 +36,7 @@ app.use('/api/customer', customerRoutes);
 app.use('/api/vendor', vendorRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
-app.use('/api', recipeRoutes);
+app.use('/api/recipes', recipeRoutes);
 
 // Start server
 app.listen(PORT, () => {

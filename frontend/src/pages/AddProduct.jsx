@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
 import AddProductForm from '../components/vendor/AddProductForm';
@@ -16,7 +16,7 @@ const AddProduct = () => {
 
     useEffect(() => {
         import('../data/data.json').then(data => {
-            setProducts([...data.fruits, ...data.vegetables]);
+            setProducts([...data.ingredients]);
         });
 
         fetchVendorProducts();

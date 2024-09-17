@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
@@ -24,9 +24,7 @@ const ProductDetails = () => {
         const response = await axios.get(url);
         setProductData(response.data);
 
-        const product =
-          data.fruits.find((item) => item.name === name) ||
-          data.vegetables.find((item) => item.name === name);
+        const product = data.ingredients.find((item) => item.name === name);
 
         setProductInfo(product);
 

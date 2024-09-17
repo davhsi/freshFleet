@@ -8,6 +8,7 @@ import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import RecipeList from './components/RecipeList'; // Import the RecipeList component
+import RecipeProducts from './components/RecipeProducts';
 import NotFound from './pages/NotFound';
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
       <Route path="/cart" element={<Cart userId={userId} />} />
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/recipes" element={<RecipeList />} /> {/* Add this route */}
+      <Route path="/recipe-products/:name" element={<RecipeProducts />} /> 
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
