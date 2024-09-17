@@ -7,10 +7,12 @@ const RecipeProducts = () => {
   const { recipe } = location.state || {};
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);  // Add loading state
 
   useEffect(() => {
-    if (!recipe) {
-      setError('No recipe selected.');
+    if (!recipe || !recipe.ingredients || recipe.ingredients.length === 0) {
+      setError('No recipe or ingredients selected.');
+      setLoading(false);  // Stop loading if no recipe or ingredients are found
       return;
     }
 
@@ -25,22 +27,23 @@ const RecipeProducts = () => {
         // Log the product data for debugging
         console.log('Fetched products:', productData);
         
-        // Remove duplicate products
+        // Remove duplicate products based on ID
         const uniqueProducts = Array.from(new Set(productData.map(product => product.id)))
-          .map(id => {
-            return productData.find(product => product.id === id);
-          });
+          .map(id => productData.find(product => product.id === id));
 
         // Filter products based on recipe ingredients
-        const matchingProducts = uniqueProducts.filter((product) =>
-          recipe.ingredients.some((ingredient) =>
+        const matchingProducts = uniqueProducts.filter(product =>
+          recipe.ingredients.some(ingredient =>
             product.name.toLowerCase().includes(ingredient.toLowerCase())
           )
         );
+
         setFilteredProducts(matchingProducts);
       } catch (error) {
         setError(`Error fetching products: ${error.message}`);
         console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);  // Set loading to false once data is fetched
       }
     };
 
@@ -53,17 +56,21 @@ const RecipeProducts = () => {
         Ingredients for {recipe ? recipe.name : 'Recipe'}
       </h1>
 
-      {error && <p className="text-red-500">{error}</p>}
-
-      <div className="flex flex-wrap gap-6">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product, index) => (
-            <ProductCard key={index} product={product} />
-          ))
-        ) : (
-          <p>No matching products found for this recipe.</p>
-        )}
-      </div>
+      {loading ? (
+        <p>Loading products...</p>
+      ) : error ? (
+        <p className="text-red-500">{error}</p>
+      ) : (
+        <div className="flex flex-wrap gap-6">
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product, index) => (
+              <ProductCard key={index} product={product} />
+            ))
+          ) : (
+            <p>No matching products found for this recipe.</p>
+          )}
+        </div>
+      )}
     </div>
   );
 };
