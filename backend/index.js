@@ -1,14 +1,14 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
 const customerRoutes = require('./routes/customerRoutes');
 const vendorRoutes = require('./routes/vendorRoutes');
 const productRoutes = require('./routes/productRoutes');
-const cartRoutes = require('./routes/cartRoutes');
-const paymentRoutes = require('./routes/paymentRoutes');
+const cartRoutes = require('./routes/cartRoutes'); // Ensure you have this file
 const recipeRoutes = require('./routes/recipeRoutes');
 
 const app = express();
@@ -16,6 +16,9 @@ const app = express();
 // Middleware
 app.use(bodyParser.json());
 app.use(cors());
+
+// Serve static files (e.g., recipe images)
+app.use('/recipes', express.static(path.join(__dirname, 'data')));
 
 // MongoDB connection
 const mongoUri = process.env.MONGO_URI;
@@ -33,7 +36,6 @@ app.use('/api/customer', customerRoutes);
 app.use('/api/vendor', vendorRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
-app.use('/api/payment', paymentRoutes);
 app.use('/api/recipes', recipeRoutes);
 
 // Start server

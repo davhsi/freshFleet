@@ -1,8 +1,7 @@
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import CustomerAuth from './components/auth/CustomerAuth'; 
-import VendorAuth from './components/auth/VendorAuth'; 
-import UserRoleSelection from './components/user/UserRoleSelection'; 
+import CustomerAuth from './components/auth/CustomerAuth';
+import VendorAuth from './components/auth/VendorAuth';
+import UserRoleSelection from './components/user/UserRoleSelection';
 import AddProduct from './pages/AddProduct';
 import CustomerHome from './pages/CustomerHome';
 import ProductDetails from './pages/ProductDetails';
