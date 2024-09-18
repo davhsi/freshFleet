@@ -6,7 +6,7 @@ import data from '../data/data.json';
 import ProductInfo from '../components/customer/ProductInfo';
 import VendorOfferings from '../components/customer/VendorOfferings';
 import SortOptions from '../components/customer/SortOptions';
-import { useCart } from '../context/CartContext'; 
+import useCart from '../hooks/useCart'; // Import useCart hook
 
 const ProductDetails = () => {
   const { name } = useParams();
@@ -14,9 +14,11 @@ const ProductDetails = () => {
   const [productInfo, setProductInfo] = useState(null);
   const [sortOption, setSortOption] = useState('price');
   const [sortOrder, setSortOrder] = useState('desc');
-  const { addToCart } = useCart(); 
-  const userId = localStorage.getItem('customerId'); 
+  
+  const userId = localStorage.getItem('customerId'); // Get userId from localStorage
+  const { addToCart } = useCart(userId); // Use the useCart hook
 
+  // Fetch product data
   useEffect(() => {
     const fetchProductData = async () => {
       try {
@@ -24,9 +26,8 @@ const ProductDetails = () => {
         const response = await axios.get(url);
         setProductData(response.data);
 
-        const product =
-          data.fruits.find((item) => item.name === name) ||
-          data.vegetables.find((item) => item.name === name);
+        // Find product in local data (data.json)
+        const product = data.ingredients.find((item) => item.name === name);
 
         setProductInfo(product);
 
@@ -41,6 +42,7 @@ const ProductDetails = () => {
     fetchProductData();
   }, [name]);
 
+  // Handle sorting changes
   const handleSortChange = (e) => {
     setSortOption(e.target.value);
   };
@@ -49,6 +51,7 @@ const ProductDetails = () => {
     setSortOrder(e.target.value);
   };
 
+  // Sort vendor offerings
   const sortVendorOfferings = (offerings) => {
     return offerings.sort((a, b) => {
       let comparison = 0;
@@ -79,8 +82,7 @@ const ProductDetails = () => {
           />
           <VendorOfferings
             sortedProductData={sortedProductData}
-            handleAddToCart={addToCart}
-            userId={userId} 
+            userId={userId} // Pass userId to VendorOfferings
           />
         </div>
       </div>

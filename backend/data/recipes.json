@@ -1,0 +1,72 @@
+[
+    {
+      "id": 1,
+      "name": "Rasam",
+      "ingredients": [
+        "Tamarind",
+        "Tomato",
+        "Rasam Powder",
+        "Mustard Seeds",
+        "Cumin Seeds",
+        "Garlic",
+        "Coriander Leaves",
+        "Salt",
+        "Oil"
+      ],
+      "image": "rasam.jpeg"
+    },
+    {
+      "id": 2,
+      "name": "Sambar Rice",
+      "ingredients": [
+        "Rice",
+        "Toor Dal",
+        "Sambar Powder",
+        "Carrot",
+        "Tamarind",
+        "Mustard Seeds",
+        "Cumin Seeds",
+        "Curry Leaves",
+        "Salt",
+        "Oil"
+      ],
+      "image": "sambar-rice.jpeg"
+    },
+    {
+      "id": 3,
+      "name": "Curd Rice",
+      "ingredients": [
+        "Rice",
+        "Curd",
+        "Mustard Seeds",
+        "Urad Dal",
+        "Coriander Leaves",
+        "Green Chilies",
+        "Ginger",
+        "Salt",
+        "Oil"
+      ],
+      "image": "curd-rice.jpeg"
+    },
+    {
+      "id": 4,
+      "name": "Biryani",
+      "ingredients": [
+        "Basmati Rice",
+        "Chicken or Vegetables",
+        "Biryani Masala",
+        "Curd",
+        "Onion",
+        "Tomato",
+        "Ginger Garlic Paste",
+        "Mint",
+        "Coriander Leaves",
+        "Green Chilies",
+        "Rice",
+        "Ghee",
+        "Salt"
+      ],
+      "image": "biryani.jpeg"
+    }
+  ]
+  

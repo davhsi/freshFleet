@@ -6,9 +6,12 @@ import UserRoleSelection from './components/user/UserRoleSelection';
 import AddProduct from './pages/AddProduct';
 import CustomerHome from './pages/CustomerHome';
 import ProductDetails from './pages/ProductDetails';
-import Cart from './pages/Cart';
-import Checkout from './pages/Checkout';
 import NotFound from './pages/NotFound';
+import CartPage from './pages/CartPage';
+import PaymentSuccess from './pages/PaymentSuccess';
+import Checkout from './pages/Checkout';
+import RecipeList from './components/RecipeList';
+import RecipeProducts from './components/RecipeProducts';
 
 const App = () => {
   const userId = localStorage.getItem('customerId');
@@ -21,8 +24,11 @@ const App = () => {
       <Route path="/add-product" element={<AddProduct />} />
       <Route path="/home" element={<CustomerHome />} /> 
       <Route path="/product/:name" element={<ProductDetails />} /> 
-      <Route path="/cart" element={<Cart userId={userId} />} /> {/* Pass userId */}
+      <Route path="/recipes" element={<RecipeList />} />
+      <Route path="/recipe-products/:name" element={<RecipeProducts />} />  
+      <Route path="/cart" element={<CartPage />} />
       <Route path="/checkout" element={<Checkout />} />
+      <Route path="/payment-success" element={<PaymentSuccess />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
