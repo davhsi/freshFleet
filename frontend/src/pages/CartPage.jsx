@@ -125,7 +125,7 @@ const CartPage = () => {
           <div className="text-center">
             <p className="text-2xl">Your cart is empty. Add more items!</p>
             <button
-              className="bg-blue-500 text-white p-4 rounded-lg mt-4 hover:bg-blue-600 transition duration-200"
+              className="bg-blue-500 text-white p-4 rounded-lg mt-4 hover:bg-blue-500 transition duration-200"
               onClick={() => (window.location.href = "/home")}
             >
               Continue Shopping
@@ -188,7 +188,7 @@ const CartPage = () => {
                         </button>
                       </div>
                       <button
-                        className="bg-red-500 text-white p-3 mt-4 rounded-lg hover:bg-red-600 transition duration-200"
+                        className="bg-red-500 text-white p-4 mt-4 rounded-lg hover:bg-red-700 transition duration-200"
                         onClick={() => handleRemoveItem(item.product._id)}
                       >
                         Remove
@@ -201,7 +201,7 @@ const CartPage = () => {
 
             <div className="button-container">
               <button
-                className="bg-gray-500 text-white p-4 rounded-lg mx-2 text-lg hover:bg-gray-600 transition duration-500"
+                className="bg-gray-500 text-white p-4 rounded-lg mx-2 text-lg hover:bg-black-600 transition duration-500"
                 onClick={() => (window.location.href = "/home")}
               >
                 Continue Shopping
