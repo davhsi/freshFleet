@@ -50,8 +50,8 @@ const VendorOfferings = ({ sortedProductData, userId }) => {
       <h3 className="text-lg font-bold mb-2">Vendor Offerings</h3>
       <ul>
         {sortedProductData.map((product) => (
-          <li key={product._id} className="flex justify-between items-center mb-4"> {/* Added Flexbox layout */}
-            <div className="text-gray-800">
+          <li key={product._id} className="flex justify-between items-center mb-4">
+            <div className="text-gray-900 text-xl"> {/* Updated font size */}
               {product.name} - {product.pricePerKg} per kg
             </div>
             <button
