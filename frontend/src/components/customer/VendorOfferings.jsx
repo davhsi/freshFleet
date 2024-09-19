@@ -1,4 +1,3 @@
-// src/components/customer/VendorOfferings.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
@@ -10,6 +9,7 @@ const VendorOfferings = ({ sortedProductData, userId }) => {
 
   const handleAddToCartClick = (product) => {
     setSelectedProduct(product);
+    
     setIsModalOpen(true);
   };
 
@@ -50,11 +50,13 @@ const VendorOfferings = ({ sortedProductData, userId }) => {
       <h3 className="text-lg font-bold mb-2">Vendor Offerings</h3>
       <ul>
         {sortedProductData.map((product) => (
-          <li key={product._id} className="mb-4">
-            <div>{product.name} - {product.pricePerKg} per kg</div>
+          <li key={product._id} className="flex justify-between items-center mb-4"> {/* Added Flexbox layout */}
+            <div className="text-gray-800">
+              {product.name} - {product.pricePerKg} per kg
+            </div>
             <button
               onClick={() => handleAddToCartClick(product)}
-              className="bg-blue-500 text-white p-2 rounded mt-2"
+              className="bg-blue-500 text-white px-3 py-1 rounded transition duration-300 ease-in-out hover:bg-blue-600 hover:shadow-lg"
             >
               Add to Cart
             </button>
