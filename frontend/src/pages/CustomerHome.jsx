@@ -15,7 +15,14 @@ const CustomerHome = () => {
       setCustomerName(storedName);
     }
 
-    const allProducts = [...data.ingredients];
+    // Transform product names for image matching
+    const transformProductName = (name) => name.toLowerCase().replace(/\s+/g, '_');
+
+    const allProducts = data.ingredients.map(product => ({
+      ...product,
+      transformedName: transformProductName(product.name)
+    }));
+
     setProducts(allProducts);
   }, []);
 
