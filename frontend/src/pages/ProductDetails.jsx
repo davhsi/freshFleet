@@ -6,7 +6,7 @@ import data from '../data/data.json';
 import ProductInfo from '../components/customer/ProductInfo';
 import VendorOfferings from '../components/customer/VendorOfferings';
 import SortOptions from '../components/customer/SortOptions';
-import { useCart } from '../context/CartContext'; 
+import useCart from '../hooks/useCart'; // Import useCart hook
 
 const ProductDetails = () => {
   const { name } = useParams();
@@ -18,6 +18,7 @@ const ProductDetails = () => {
   const { addToCart } = useCart(); 
   const userId = localStorage.getItem('customerId'); 
 
+  // Fetch product data
   useEffect(() => {
     const fetchProductData = async () => {
       try {
@@ -43,6 +44,7 @@ const ProductDetails = () => {
     fetchProductData();
   }, [name]);
 
+  // Handle sorting changes
   const handleSortChange = (e) => {
     setSortOption(e.target.value);
   };
@@ -51,6 +53,7 @@ const ProductDetails = () => {
     setSortOrder(e.target.value);
   };
 
+  // Sort vendor offerings
   const sortVendorOfferings = (offerings) => {
     return offerings.sort((a, b) => {
       let comparison = 0;
