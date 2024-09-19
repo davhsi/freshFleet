@@ -12,6 +12,7 @@ const SortOptions = ({ sortOption, sortOrder, handleSortChange, handleSortOrderC
         >
           Sort by:
         </label>
+        
         <select
           id="sortOptions"
           value={sortOption}
