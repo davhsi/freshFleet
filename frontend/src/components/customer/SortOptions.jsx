@@ -3,7 +3,8 @@ import React from 'react';
 const SortOptions = ({ sortOption, sortOrder, handleSortChange, handleSortOrderChange }) => {
   return (
     <div className="mb-4">
-      <div className="mb-4">
+      {/* Container for Sort Options */}
+      <div className="mb-4 p-4 border rounded-lg shadow-sm bg-white">
         <label htmlFor="sortOptions" className="block text-sm font-medium text-gray-700">
           Sort by:
         </label>
@@ -18,7 +19,9 @@ const SortOptions = ({ sortOption, sortOrder, handleSortChange, handleSortOrderC
           <option value="date">Date Added</option>
         </select>
       </div>
-      <div className="mb-4">
+
+      {/* Container for Sort Order */}
+      <div className="mb-4 p-4 border rounded-lg shadow-sm bg-white">
         <label htmlFor="sortOrder" className="block text-sm font-medium text-gray-700">
           Order:
         </label>
@@ -37,3 +40,4 @@ const SortOptions = ({ sortOption, sortOrder, handleSortChange, handleSortOrderC
 };
 
 export default SortOptions;
+   
