@@ -27,7 +27,7 @@ const RecipeProducts = () => {
         // Log the product data for debugging
         console.log('Fetched products:', productData);
 
-        // Transform ingredient names to match the image file names
+        // Transform ingredient names to match image filenames
         const transformIngredientName = (name) => name.toLowerCase().replace(/\s+/g, '_');
 
         // Filter products based on transformed ingredient names
@@ -37,7 +37,13 @@ const RecipeProducts = () => {
           )
         );
 
-        setFilteredProducts(matchingProducts);
+        // Pass transformed ingredient names to the ProductCard
+        const transformedProducts = matchingProducts.map(product => ({
+          ...product,
+          transformedName: transformIngredientName(product.name)
+        }));
+
+        setFilteredProducts(transformedProducts);
       } catch (error) {
         setError(`Error fetching products: ${error.message}`);
         console.error('Error fetching products:', error);
