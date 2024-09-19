@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProductCard from '../components/customer/ProductCard';
+import axios from 'axios';
+import { API_BASE_URL } from '../config';
 import data from '../data/data.json';
 
 const CustomerHome = () => {
   const [customerName, setCustomerName] = useState('Guest');
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [cart, setCart] = useState([]);
   const navigate = useNavigate();
+  const userId = localStorage.getItem('customerId'); // Get customerId from localStorage
 
   useEffect(() => {
     const storedName = localStorage.getItem('customerName');
@@ -24,7 +28,21 @@ const CustomerHome = () => {
     }));
 
     setProducts(allProducts);
-  }, []);
+
+    // Fetch user's cart from the server
+    const fetchCart = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/api/cart/${userId}`);
+        setCart(response.data.items); // Set the cart state with the fetched items
+      } catch (error) {
+        console.error('Error fetching cart:', error);
+      }
+    };
+
+    if (userId) {
+      fetchCart();
+    }
+  }, [userId]);
 
   const filteredProducts = products.filter(product =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -61,6 +79,7 @@ const CustomerHome = () => {
           Recipes
         </button>
       </div>
+      
 
       <div className="flex flex-wrap gap-6">
         {filteredProducts.length > 0 ? (

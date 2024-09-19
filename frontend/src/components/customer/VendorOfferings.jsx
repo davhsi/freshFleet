@@ -1,44 +1,74 @@
-import React from 'react';
+// src/components/customer/VendorOfferings.jsx
+import React, { useState } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
+import QuantityModal from './QuantityModal';
 
 const VendorOfferings = ({ sortedProductData, userId }) => {
-  const handleAddToCart = async (product) => {
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleAddToCartClick = (product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const handleAddToCart = async (quantity) => {
     try {
-      // Log product and userId to check what's being sent
-      console.log('Adding to cart:', { userId, product });
-      
-      await axios.post(`${API_BASE_URL}/api/cart/add`, {
+      const cartItem = {
         userId,
-        product
-      });
-      
-      alert('Product added to cart!');
+        product: {
+          _id: selectedProduct._id,
+          name: selectedProduct.name,
+          pricePerKg: selectedProduct.pricePerKg,
+          quantity,
+        },
+      };
+
+      console.log('Adding to cart:', cartItem);
+
+      const response = await axios.post(`${API_BASE_URL}/api/cart/add`, cartItem);
+
+      if (response.status === 200) {
+        alert('Product added to cart successfully!');
+      } else {
+        alert('Failed to add product to cart');
+      }
     } catch (error) {
       console.error('Error adding product to cart', error);
+      alert('Error adding product to cart');
     }
   };
-  
-  
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+  };
 
   return (
-    <div className="flex-1">
-      <h3 className="text-lg font-semibold mb-4">Vendor Offerings</h3>
-      {sortedProductData.map((product, index) => (
-        <div key={index} className="border border-gray-300 rounded-lg p-4 shadow-lg mb-4">
-          <h4 className="text-lg font-semibold">Vendor Name: {product.vendorName}</h4>
-          <p className="text-xl font-bold text-green-600">Price per Kg: ₹{product.pricePerKg}</p>
-          <p className="text-sm text-gray-600">Total Quantity Weight: {product.totalQuantityWeight} kg</p>
-          <p className="text-sm text-gray-600">Date Added: {new Date(product.dateAdded).toLocaleDateString()}</p>
-          <p className="text-sm text-gray-600">Vendor Contact: {product.vendorContact}</p>
-          <button
-            onClick={() => handleAddToCart(product)}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-          >
-            Add to Cart
-          </button>
-        </div>
-      ))}
+    <div>
+      <h3 className="text-lg font-bold mb-2">Vendor Offerings</h3>
+      <ul>
+        {sortedProductData.map((product) => (
+          <li key={product._id} className="mb-4">
+            <div>{product.name} - {product.pricePerKg} per kg</div>
+            <button
+              onClick={() => handleAddToCartClick(product)}
+              className="bg-blue-500 text-white p-2 rounded mt-2"
+            >
+              Add to Cart
+            </button>
+          </li>
+        ))}
+      </ul>
+      {selectedProduct && (
+        <QuantityModal
+          product={selectedProduct}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          onAddToCart={handleAddToCart}
+        />
+      )}
     </div>
   );
 };

@@ -2,7 +2,7 @@
 
 const ProductInfo = ({ productInfo }) => {
   if (!productInfo) {
-    return <p>Product not found.</p>;
+    return <p className="text-center text-red-500">Product not found.</p>;
   }
 
   return (
