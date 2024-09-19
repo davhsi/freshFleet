@@ -71,26 +71,32 @@ const ProductDetails = () => {
   const sortedProductData = sortVendorOfferings(productData);
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Product Details</h2>
+    <div className="p-6 max-w-7xl mx-auto min-h-screen">  {/* Removed background color */}
+      <h2 className="text-4xl font-extrabold text-gray-800 mb-6 text-center">Product Details</h2>  {/* Updated title styling */}
 
       {loading ? (
-        <p>Loading product details...</p>  // Display loading indicator
+        <p className="text-xl text-blue-500 animate-pulse text-center">Loading product details...</p>  // Display loading indicator
       ) : (
-        <div className="flex gap-6">
-          <ProductInfo productInfo={productInfo} />
-          <div>
-            <SortOptions
-              sortOption={sortOption}
-              sortOrder={sortOrder}
-              handleSortChange={handleSortChange}
-              handleSortOrderChange={handleSortOrderChange}
-            />
-            <VendorOfferings
-              sortedProductData={sortedProductData}
-              handleAddToCart={addToCart}
-              userId={userId}
-            />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="col-span-1 bg-white p-4 rounded-lg shadow-lg border-l-4 border-blue-500"> {/* Added border and shadow */}
+            <ProductInfo productInfo={productInfo} />
+          </div>
+          <div className="col-span-2">
+            <div className="bg-white p-4 rounded-lg shadow-lg mb-6 border-l-4 border-yellow-400"> {/* Added border and shadow */}
+              <SortOptions
+                sortOption={sortOption}
+                sortOrder={sortOrder}
+                handleSortChange={handleSortChange}
+                handleSortOrderChange={handleSortOrderChange}
+              />
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow-lg border-l-4 border-green-500"> {/* Added border and shadow */}
+              <VendorOfferings
+                sortedProductData={sortedProductData}
+                handleAddToCart={addToCart}
+                userId={userId}
+              />
+            </div>
           </div>
         </div>
       )}
