@@ -9,7 +9,6 @@ const VendorOfferings = ({ sortedProductData, userId }) => {
 
   const handleAddToCartClick = (product) => {
     setSelectedProduct(product);
-    
     setIsModalOpen(true);
   };
 
@@ -51,8 +50,11 @@ const VendorOfferings = ({ sortedProductData, userId }) => {
       <ul>
         {sortedProductData.map((product) => (
           <li key={product._id} className="flex justify-between items-center mb-4">
-            <div className="text-gray-900 text-xl"> {/* Updated font size */}
+            <div className="text-gray-900 text-xl">
               {product.name} - {product.pricePerKg} per kg
+              <div className="text-sm text-gray-500">
+                Vendor: {product.vendorId?.name || 'Unknown Vendor'}
+              </div>
             </div>
             <button
               onClick={() => handleAddToCartClick(product)}
