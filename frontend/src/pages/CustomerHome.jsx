@@ -81,7 +81,7 @@ const CustomerHome = () => {
         <input
           type="text"
           placeholder="Search for products..."
-          className="border border-gray-900 p-2 rounded-lg w-full max-w-md"
+          className="border border-gray-900 p- rounded-lg w-full max-w-md"
           style={{ marginLeft: '2cm' }}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -91,20 +91,20 @@ const CustomerHome = () => {
         {/* Sort Dropdown */}
         <div className="flex items-center space-x-2" style={{ marginRight: '2cm' }}>
           <select
-            className="border border-gray-900 p-2 rounded-lg w-48"
+            className="border border-gray-900 p-2 rounded-lg w-50"
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
           >
             <option value="">Sort by Nutrient</option>
-            <option value="calories">Calories</option>
-            <option value="carbohydrates">Carbohydrates</option>
-            <option value="protein">Protein</option>
-            <option value="fibers">Fibers</option>
+            <option value="calories">Sort by Calories</option>
+            <option value="carbohydrates">Sort by Carbohydrates</option>
+            <option value="protein">Sort by Protein</option>
+            <option value="fibers">Sort by Fibers</option>
           </select>
 
           {/* Sort Order Toggle (asc/desc) */}
           <select
-            className="border border-gray-900 p-2 rounded-lg w-32"
+            className="border border-gray-900 p-2 rounded-lg w-40"
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
           >
