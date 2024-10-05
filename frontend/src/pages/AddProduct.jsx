@@ -1,4 +1,4 @@
-import  { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
 import AddProductForm from '../components/vendor/AddProductForm';
@@ -93,7 +93,8 @@ const AddProduct = () => {
                     successMessage={successMessage}
                     errorMessage={errorMessage}
                 />
-                <VendorProductsTable vendorProducts={vendorProducts} />
+                {/* Pass setVendorProducts to VendorProductsTable */}
+                <VendorProductsTable vendorProducts={vendorProducts} setVendorProducts={setVendorProducts} />
             </div>
         </div>
     );
