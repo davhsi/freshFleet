@@ -118,102 +118,104 @@ const CartPage = () => {
   if (error) return <div>Error loading cart: {error.message}</div>;
 
   return (
-    <div className="cart-container">
-      <div className="p-6 w-400">
-        <h1 className="text-4xl font-bold mb-6 text-center">Your Cart</h1>
+    <div className="cart-container p-4">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-3xl font-bold mb-6 text-center">Your Cart</h1>
         {cart.length === 0 ? (
           <div className="text-center">
-            <p className="text-2xl">Your cart is empty. Add more items!</p>
+            <p className="text-xl">Your cart is empty. Add more items!</p>
             <button
-              className="bg-blue-500 text-white p-4 rounded-lg mt-4 hover:bg-blue-500 transition duration-200"
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4 hover:bg-blue-600 transition duration-200"
               onClick={() => (window.location.href = "/home")}
             >
               Continue Shopping
             </button>
           </div>
         ) : (
-          <div className="w-full max-w-4xl mx-auto">
-            <div className="text-3xl font-semibold mb-6 text-right">
+          <div className="w-full">
+            <div className="text-xl font-semibold mb-6 text-right">
               Total: ${total.toFixed(2)}
             </div>
-            <div className="cart-items">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {cart.map((item) => (
                 <div
                   key={item.product._id}
-                  className="border border-gray-700 rounded-lg shadow-lg p-6 mb-8"
+                  className="border border-gray-300 rounded-lg shadow-lg p-4"
                 >
-                  <div className="flex">
-                    <img
-                      src={`/${item.product.name.toLowerCase().replace(/ /g, "_")}.jpg`}
-                      alt={item.product.name}
-                      className="w-80 h-64 object-cover rounded-lg mb-4"
-                      onError={(e) => {
-                        const imgElement = e.target;
-                        if (imgElement.src.includes(".jpg")) {
-                          imgElement.src = `/${item.product.name.toLowerCase().replace(/ /g, "_")}.jpeg`;
-                        } else {
-                          imgElement.src = "/placeholder.jpg";
-                          console.error(`Image not found for product: ${item.product.name}`);
-                        }
-                      }}
+                  <img
+                    src={`/${item.product.name.toLowerCase().replace(/ /g, "_")}.jpg`}
+                    alt={item.product.name}
+                    className="w-full h-64 object-cover rounded-lg mb-4"
+                    onError={(e) => {
+                      const imgElement = e.target;
+                      if (imgElement.src.includes(".jpg")) {
+                        imgElement.src = `/${item.product.name.toLowerCase().replace(/ /g, "_")}.jpeg`;
+                      } else {
+                        imgElement.src = "/placeholder.jpg";
+                        console.error(
+                          `Image not found for product: ${item.product.name}`
+                        );
+                      }
+                    }}
+                  />
+                  <h3 className="text-lg font-bold">{item.product.name}</h3>
+                  <p className="text-gray-600">
+                    Vendor: {item.vendorId ? item.vendorId.name : "Vendor Name"}
+                  </p>
+                  <p className="text-lg">Price per Kg: ${item.pricePerKg}</p>
+                  <p className="font-semibold text-lg">
+                    Total: ${(item.pricePerKg * item.quantity).toFixed(2)}
+                  </p>
+                  <div className="flex items-center mt-2">
+                    <button
+                      className="bg-gray-300 text-black px-2 py-1 rounded-lg mr-2 hover:bg-gray-400 transition duration-200"
+                      onClick={() =>
+                        handleDecreaseQuantity(item.product._id, item.quantity)
+                      }
+                    >
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      min="1"
+                      value={item.quantity}
+                      readOnly
+                      className="w-16 border rounded-lg text-center text-lg"
                     />
-                    <div className="ml-8">
-                      <h3 className="text-xl font-bold">{item.product.name}</h3>
-                      <p className="text-gray-600">
-                        Vendor: {item.vendorId ? item.vendorId.name : "Vendor Name"}
-                      </p>
-                      <p className="text-lg">Price per Kg: ${item.pricePerKg}</p>
-                      <p className="font-semibold text-lg">
-                        Total: ${(item.pricePerKg * item.quantity).toFixed(2)}
-                      </p>
-                      <div className="flex items-center mt-2">
-                        <button
-                          className="bg-gray-300 text-black p-2 rounded-lg mr-2 hover:bg-gray-400 transition duration-200"
-                          onClick={() => handleDecreaseQuantity(item.product._id, item.quantity)}
-                        >
-                          -
-                        </button>
-                        <input
-                          type="number"
-                          min="1"
-                          value={item.quantity}
-                          readOnly
-                          className="w-16 border rounded-lg text-center text-lg"
-                        />
-                        <button
-                          className="bg-gray-300 text-black p-2 rounded-lg ml-2 hover:bg-gray-400 transition duration-200"
-                          onClick={() => handleIncreaseQuantity(item.product._id, item.quantity)}
-                        >
-                          +
-                        </button>
-                      </div>
-                      <button
-                        className="bg-red-500 text-white p-4 mt-4 rounded-lg hover:bg-red-700 transition duration-200"
-                        onClick={() => handleRemoveItem(item.product._id)}
-                      >
-                        Remove
-                      </button>
-                    </div>
+                    <button
+                      className="bg-gray-300 text-black px-2 py-1 rounded-lg ml-2 hover:bg-gray-400 transition duration-200"
+                      onClick={() =>
+                        handleIncreaseQuantity(item.product._id, item.quantity)
+                      }
+                    >
+                      +
+                    </button>
                   </div>
+                  <button
+                    className="bg-red-500 text-white px-4 py-2 mt-4 rounded-lg hover:bg-red-600 transition duration-200 w-full"
+                    onClick={() => handleRemoveItem(item.product._id)}
+                  >
+                    Remove
+                  </button>
                 </div>
               ))}
             </div>
 
-            <div className="button-container">
+            <div className="flex flex-col md:flex-row justify-center items-center mt-8">
               <button
-                className="bg-gray-500 text-white p-4 rounded-lg mx-2 text-lg hover:bg-black-600 transition duration-500"
+                className="bg-gray-500 text-white px-4 py-2 rounded-lg mx-2 text-lg hover:bg-gray-600 transition duration-300 mb-4 md:mb-0"
                 onClick={() => (window.location.href = "/home")}
               >
                 Continue Shopping
               </button>
               <button
-                className="bg-yellow-500 text-white p-4 rounded-lg mx-2 text-lg hover:bg-yellow-600 transition duration-500"
+                className="bg-yellow-500 text-white px-4 py-2 rounded-lg mx-2 text-lg hover:bg-yellow-600 transition duration-300 mb-4 md:mb-0"
                 onClick={handleClearCart}
               >
                 Clear Cart
               </button>
               <button
-                className="bg-green-500 text-white p-4 rounded-lg mx-2 text-lg hover:bg-green-600 transition duration-500"
+                className="bg-green-500 text-white px-4 py-2 rounded-lg mx-2 text-lg hover:bg-green-600 transition duration-300"
                 onClick={() => (window.location.href = "/checkout")}
               >
                 Proceed to Checkout
