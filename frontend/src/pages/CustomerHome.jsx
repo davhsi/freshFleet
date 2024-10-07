@@ -62,17 +62,21 @@ const CustomerHome = () => {
   };
 
   return (
-    <div className="bg-[#e0f7e0] min-h-screen p-4 md:p-8 lg:p-12">
-      {/* Logo */}
-      <h1 className="text-4xl md:text-5xl font-bold text-gray-700 mb-2 md:mb-6 text-center lg:text-left lg:ml-8">
-        <span style={{ color: 'green', fontWeight: 'bold', fontFamily: "'Edu Australia', cursive" }}>Fresh</span>{' '}
-        <span style={{ color: 'black', fontWeight: 'bold', fontFamily: "'Edu Australia', cursive" }}>Fleet</span>
-      </h1>
-
-      {/* Greeting */}
-      <h1 className="text-2xl md:text-3xl font-bold text-center lg:text-left text-gray-700 mb-4 lg:ml-8">
-        Hello {customerName}!
-      </h1>
+    <div className="min-h-screen p-4 md:p-8 lg:p-12">
+      {/* Logo and Greeting Container */}
+      <div className="flex flex-col md:flex-row items-center justify-between lg:ml-8 mb-6">
+        {/* Logo */}
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-700 mb-2">
+          <span style={{ color: 'green', fontWeight: 'bold', fontFamily: "'Edu Australia', cursive" }}>Fresh</span>{' '}
+          <span style={{ color: 'black', fontWeight: 'bold', fontFamily: "'Edu Australia', cursive" }}>Fleet</span>
+        </h1>
+        
+        {/* Greeting */}
+        <h1 className="text-2xl md:text-5xl font-bold text-gray-700 ml-4">
+          <span style={{ color: 'black', fontWeight: 'bold', fontFamily: "'Edu Australia', cursive" }}>Hello</span>{' '}
+          <span style={{ color: 'green', fontWeight: 'bold', fontFamily: "'Edu Australia', cursive" }}>{customerName}!</span>
+        </h1>
+      </div>
 
       {/* Search box, sort, and buttons container */}
       <div className="mb-6 flex flex-col md:flex-row md:justify-between md:items-center space-y-4 md:space-y-0 lg:mx-8">
@@ -85,7 +89,7 @@ const CustomerHome = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           aria-label="Search for products"
         />
-
+  
         {/* Sort Dropdown */}
         <div className="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4 lg:space-x-8">
           <select
@@ -99,7 +103,7 @@ const CustomerHome = () => {
             <option value="protein">Sort by Protein</option>
             <option value="fibers">Sort by Fibers</option>
           </select>
-
+  
           <select
             className="border border-gray-900 p-2 rounded-lg"
             value={sortOrder}
@@ -109,7 +113,7 @@ const CustomerHome = () => {
             <option value="desc">High to Low</option>
           </select>
         </div>
-
+  
         {/* Buttons container */}
         <div className="flex space-x-4 lg:space-x-6">
           <button
@@ -118,14 +122,14 @@ const CustomerHome = () => {
           >
             MyCart
           </button>
-
+  
           <button
             onClick={() => navigate('/recipes')}
             className="custom-button px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
           >
             Recipes
           </button>
-
+  
           <button
             onClick={handleLogout}
             className="custom-button px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
@@ -134,19 +138,17 @@ const CustomerHome = () => {
           </button>
         </div>
       </div>
-
-{/* Product list */}
-<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-6 lg:mx-8">
-  {filteredProducts.length > 0 ? (
-    filteredProducts.map((product, index) => (
-      <ProductCard key={index} product={product} />
-    ))
-  ) : (
-    <p className="text-center lg:text-left lg:ml-8">No products found.</p>
-  )}
-</div>
-
-
+  
+      {/* Product list */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-6 lg:mx-8">
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product, index) => (
+            <ProductCard key={index} product={product} />
+          ))
+        ) : (
+          <p className="text-center lg:text-left lg:ml-8">No products found.</p>
+        )}
+      </div>
     </div>
   );
 };
