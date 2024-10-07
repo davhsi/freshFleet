@@ -28,7 +28,6 @@ const ProductDetails = () => {
 
         // Find product in data.json
         const product = data.ingredients.find((item) => item.name === name);
-
         setProductInfo(product);
 
         if (!product) {

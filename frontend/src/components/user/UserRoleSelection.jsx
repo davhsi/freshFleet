@@ -12,7 +12,7 @@ const UserRoleSelection = () => {
       className="relative min-h-screen bg-cover bg-center flex items-center justify-center"
       style={{ backgroundImage: `url('/userHome.jpeg')` }}
     >
-      <div className="absolute right-8 sm:right-12 md:right-16 lg:right-20 top-[50%] transform -translate-y-1/2 mr-10 sm:mr-20 md:mr-30 lg:mr-40">
+      <div className="absolute top-[55%] left-[75%] transform -translate-x-[40%] -translate-y-1/2">
         <div className="flex flex-col space-y-4">
           <button 
             onClick={() => handleRoleSelect('customer')} 
