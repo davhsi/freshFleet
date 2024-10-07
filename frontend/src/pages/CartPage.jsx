@@ -20,11 +20,11 @@ const CartPage = () => {
     const fetchCart = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/api/cart/${userId}`);
-        const cartItems = response.data.cart.items || [];
+        const cartItems = response.data?.cart?.items || [];
         setCart(cartItems);
         calculateTotal(cartItems);
       } catch (err) {
-        setError(err);
+        setError(err.message);
       } finally {
         setLoading(false);
       }
@@ -36,7 +36,7 @@ const CartPage = () => {
   // Calculate total price of all items
   const calculateTotal = (items) => {
     const totalCost = items.reduce(
-      (acc, item) => acc + item.quantity * item.pricePerKg,
+      (acc, item) => acc + (item.quantity * item.pricePerKg || 0),
       0
     );
     setTotal(totalCost);
@@ -50,7 +50,7 @@ const CartPage = () => {
       );
       if (response.status === 200) {
         const updatedCart = cart.filter(
-          (item) => item.product._id !== productId
+          (item) => item.product?._id !== productId
         );
         setCart(updatedCart);
         calculateTotal(updatedCart);
@@ -71,7 +71,7 @@ const CartPage = () => {
       );
       if (response.status === 200) {
         const updatedCart = cart.map((item) =>
-          item.product._id === productId
+          item.product?._id === productId
             ? { ...item, quantity: newQuantity }
             : item
         );
@@ -115,7 +115,7 @@ const CartPage = () => {
   };
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error loading cart: {error.message}</div>;
+  if (error) return <div>Error loading cart: {error}</div>;
 
   return (
     <div className="cart-container p-4">
@@ -139,64 +139,83 @@ const CartPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {cart.map((item) => (
                 <div
-                  key={item.product._id}
+                  key={item.product?._id || Math.random()}
                   className="border border-gray-300 rounded-lg shadow-lg p-4"
                 >
-                  <img
-                    src={`/${item.product.name.toLowerCase().replace(/ /g, "_")}.jpg`}
-                    alt={item.product.name}
-                    className="w-full h-64 object-cover rounded-lg mb-4"
-                    onError={(e) => {
-                      const imgElement = e.target;
-                      if (imgElement.src.includes(".jpg")) {
-                        imgElement.src = `/${item.product.name.toLowerCase().replace(/ /g, "_")}.jpeg`;
-                      } else {
-                        imgElement.src = "/placeholder.jpg";
-                        console.error(
-                          `Image not found for product: ${item.product.name}`
-                        );
-                      }
-                    }}
-                  />
-                  <h3 className="text-lg font-bold">{item.product.name}</h3>
-                  <p className="text-gray-600">
-                    Vendor: {item.vendorId ? item.vendorId.name : "Vendor Name"}
-                  </p>
-                  <p className="text-lg">Price per Kg: ${item.pricePerKg}</p>
-                  <p className="font-semibold text-lg">
-                    Total: ${(item.pricePerKg * item.quantity).toFixed(2)}
-                  </p>
-                  <div className="flex items-center mt-2">
-                    <button
-                      className="bg-gray-300 text-black px-2 py-1 rounded-lg mr-2 hover:bg-gray-400 transition duration-200"
-                      onClick={() =>
-                        handleDecreaseQuantity(item.product._id, item.quantity)
-                      }
-                    >
-                      -
-                    </button>
-                    <input
-                      type="number"
-                      min="1"
-                      value={item.quantity}
-                      readOnly
-                      className="w-16 border rounded-lg text-center text-lg"
-                    />
-                    <button
-                      className="bg-gray-300 text-black px-2 py-1 rounded-lg ml-2 hover:bg-gray-400 transition duration-200"
-                      onClick={() =>
-                        handleIncreaseQuantity(item.product._id, item.quantity)
-                      }
-                    >
-                      +
-                    </button>
-                  </div>
-                  <button
-                    className="bg-red-500 text-white px-4 py-2 mt-4 rounded-lg hover:bg-red-600 transition duration-200 w-full"
-                    onClick={() => handleRemoveItem(item.product._id)}
-                  >
-                    Remove
-                  </button>
+                  {item.product ? (
+                    <>
+                      <img
+                        src={`/${item.product.name
+                          ?.toLowerCase()
+                          ?.replace(/ /g, "_")}.jpg`}
+                        alt={item.product.name}
+                        className="w-full h-64 object-cover rounded-lg mb-4"
+                        onError={(e) => {
+                          const imgElement = e.target;
+                          if (imgElement.src.includes(".jpg")) {
+                            imgElement.src = `/${item.product.name
+                              ?.toLowerCase()
+                              ?.replace(/ /g, "_")}.jpeg`;
+                          } else {
+                            imgElement.src = "/placeholder.jpg";
+                            console.error(
+                              `Image not found for product: ${item.product.name}`
+                            );
+                          }
+                        }}
+                      />
+                      <h3 className="text-lg font-bold">
+                        {item.product.name}
+                      </h3>
+                      <p className="text-gray-600">
+                        Vendor:{" "}
+                        {item.vendorId ? item.vendorId.name : "Vendor Name"}
+                      </p>
+                      <p className="text-lg">Price per Kg: ${item.pricePerKg}</p>
+                      <p className="font-semibold text-lg">
+                        Total: ${(item.pricePerKg * item.quantity).toFixed(2)}
+                      </p>
+                      <div className="flex items-center mt-2">
+                        <button
+                          className="bg-gray-300 text-black px-2 py-1 rounded-lg mr-2 hover:bg-gray-400 transition duration-200"
+                          onClick={() =>
+                            handleDecreaseQuantity(
+                              item.product._id,
+                              item.quantity
+                            )
+                          }
+                        >
+                          -
+                        </button>
+                        <input
+                          type="number"
+                          min="1"
+                          value={item.quantity}
+                          readOnly
+                          className="w-16 border rounded-lg text-center text-lg"
+                        />
+                        <button
+                          className="bg-gray-300 text-black px-2 py-1 rounded-lg ml-2 hover:bg-gray-400 transition duration-200"
+                          onClick={() =>
+                            handleIncreaseQuantity(
+                              item.product._id,
+                              item.quantity
+                            )
+                          }
+                        >
+                          +
+                        </button>
+                      </div>
+                      <button
+                        className="bg-red-500 text-white px-4 py-2 mt-4 rounded-lg hover:bg-red-600 transition duration-200 w-full"
+                        onClick={() => handleRemoveItem(item.product._id)}
+                      >
+                        Remove
+                      </button>
+                    </>
+                  ) : (
+                    <p>Product information is unavailable</p>
+                  )}
                 </div>
               ))}
             </div>
