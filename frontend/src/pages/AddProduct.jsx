@@ -3,6 +3,7 @@ import axios from 'axios';
 import { API_BASE_URL } from '../config';
 import AddProductForm from '../components/vendor/AddProductForm';
 import VendorProductsTable from '../components/vendor/VendorProductsTable';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const AddProduct = () => {
     const [products, setProducts] = useState([]);
@@ -13,6 +14,7 @@ const AddProduct = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [vendorProducts, setVendorProducts] = useState([]);
     const [vendorName, setVendorName] = useState('');
+    const navigate = useNavigate(); // Create navigate function
 
     useEffect(() => {
         import('../data/data.json').then(data => {
@@ -77,10 +79,26 @@ const AddProduct = () => {
         }
     };
 
+    // Logout handler
+    const handleLogout = () => {
+        // Clear any authentication tokens or user session
+        localStorage.removeItem('authToken'); // Assuming you're using localStorage for auth tokens
+        // Redirect user to home page after logging out
+        navigate('/'); // Redirect to the home page
+    };
+
     return (
         <div className="min-h-screen flex flex-col items-center bg-gray-100 p-4">
             <div className="w-full max-w-6xl bg-white rounded-lg shadow-lg p-8 mx-auto">
-                <h1 className="text-3xl font-bold text-gray-800 mb-6">Hello {vendorName}</h1>
+                <div className="flex justify-between items-center mb-2"> {/* Flex container for greeting and logout button */}
+                    <h1 className="text-3xl font-bold text-gray-800">Hello {vendorName}</h1>
+                    <button
+                        onClick={handleLogout}
+                        className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    >
+                        Logout
+                    </button>
+                </div>
                 <AddProductForm
                     products={products}
                     selectedProduct={selectedProduct}
