@@ -135,14 +135,18 @@ const CustomerHome = () => {
         </div>
       </div>
 
-      {/* Product list */}
-      <div className="flex flex-wrap justify-center md:justify-start gap-6 lg:gap-8 lg:mx-8">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product, index) => <ProductCard key={index} product={product} />)
-        ) : (
-          <p className="text-center lg:text-left lg:ml-8">No products found.</p>
-        )}
-      </div>
+{/* Product list */}
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-6 lg:mx-8">
+  {filteredProducts.length > 0 ? (
+    filteredProducts.map((product, index) => (
+      <ProductCard key={index} product={product} />
+    ))
+  ) : (
+    <p className="text-center lg:text-left lg:ml-8">No products found.</p>
+  )}
+</div>
+
+
     </div>
   );
 };
