@@ -41,7 +41,7 @@
         "Mustard Seeds",
         "Urad Dal",
         "Coriander Leaves",
-        "Green Chilies",
+        "Green Chillies",
         "Ginger",
         "Salt",
         "Oil"
@@ -50,10 +50,10 @@
     },
     {
       "id": 4,
-      "name": "Biryani",
+      "name": "Chicken Biryani",
       "ingredients": [
         "Basmati Rice",
-        "Chicken or Vegetables",
+        "Chicken",
         "Biryani Masala",
         "Curd",
         "Onion",
@@ -61,7 +61,7 @@
         "Ginger Garlic Paste",
         "Mint",
         "Coriander Leaves",
-        "Green Chilies",
+        "Green Chillies",
         "Rice",
         "Ghee",
         "Salt"
