@@ -39,39 +39,46 @@ const RecipeList = () => {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold text-center text-gray-700 mb-6">Recipes</h1>
+    <div className="p-6 bg-gray-100 min-h-screen">
+      <h1 className="text-4xl font-bold text-center text-green-700 mb-8">Recipes List</h1>
 
-      {error && <p className="text-red-500">{error}</p>}
+      {/* Quote Section */}
+      <div className="bg-green-100 text-green-700 p-4 rounded-lg shadow-lg mb-8 text-center">
+        <p className="text-xl italic">
+          "Making cooking simpler, smarter, and just a click away"
+        </p>
+      </div>
 
-      <div className="mb-6">
+      {error && <p className="text-red-500 text-center">{error}</p>}
+
+      <div className="mb-8">
         <input
           type="text"
-          placeholder="Search recipes..."
+          placeholder="Search Recipes..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border rounded-lg shadow-sm  focus:outline-none focus:ring-2 focus:ring-green-600"
         />
       </div>
 
-      <div className="flex flex-wrap gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredRecipes.length > 0 ? (
           filteredRecipes.map((recipe) => (
             <div
               key={recipe.id}
-              className="border p-2 rounded-lg shadow-md cursor-pointer"
+              className="bg-white border p-4 rounded-lg shadow-md hover:shadow-lg cursor-pointer transition-transform transform hover:scale-105"
               onClick={() => handleRecipeClick(recipe)}
             >
               <img
                 src={`/recipes/${recipe.image}`}
                 alt={recipe.name}
-                className="w-40 h-40 object-cover"
+                className="w-full h-40 object-cover rounded-lg"
               />
-              <h2 className="text-lg font-semibold mt-2">{recipe.name}</h2>
+              <h2 className="text-xl font-semibold mt-4 text-gray-800">{recipe.name}</h2>
             </div>
           ))
         ) : (
-          <p>No recipes found.</p>
+          <p className="text-center text-gray-500">No recipes found.</p>
         )}
       </div>
     </div>
