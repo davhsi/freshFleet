@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/tailwind.css';
 import { API_BASE_URL } from '../config';
 import AuthForm from '../components/auth/AuthForm';
@@ -15,6 +15,7 @@ const Auth = ({ role }) => {
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
+    // Clear success and error messages when switching modes
     useEffect(() => {
         setSuccessMessage('');
         setErrorMessage('');
@@ -33,11 +34,12 @@ const Auth = ({ role }) => {
             const retrievedName = response.data[`${role}Name`];
             const id = response.data[`${role}Id`];
 
+            // Store user data in local storage
             localStorage.setItem(`${role}Name`, retrievedName);
             localStorage.setItem(`${role}Id`, id);
 
             setSuccessMessage(`${role.charAt(0).toUpperCase() + role.slice(1)} ${isSignUp ? 'sign up' : 'sign in'} successful! Redirecting to your dashboard.`);
-            
+
             setTimeout(() => {
                 if (role === 'vendor') {
                     navigate('/add-product');
@@ -48,6 +50,7 @@ const Auth = ({ role }) => {
         } catch (error) {
             console.error('Error during sign-up/sign-in:', error);
 
+            // Handle backend validation errors
             if (error.response && error.response.data) {
                 const errorData = error.response.data;
                 if (errorData.message.includes('Incorrect password')) {
@@ -72,8 +75,10 @@ const Auth = ({ role }) => {
              style={{ backgroundImage: `url('/loginPage.jpeg')`}}>
             <div className="w-full max-w-md p-8 m-8 space-y-6 bg-white rounded shadow-md">
                 <h2 className="text-2xl font-bold text-left text-green-700">{isSignUp ? 'Sign Up' : 'Sign In'}</h2>
+                
                 {successMessage && <p className="text-green-500 text-center">{successMessage}</p>}
                 {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
+                
                 <AuthForm 
                     isSignUp={isSignUp}
                     name={name}
@@ -84,10 +89,18 @@ const Auth = ({ role }) => {
                     setPassword={setPassword}
                     handleSubmit={handleSubmit}
                 />
+                
                 <SwitchAuthMode 
                     isSignUp={isSignUp}
                     toggleAuthMode={toggleAuthMode}
                 />
+                
+                {/* Link to Forgot Password */}
+                {!isSignUp && (
+                    <Link to="/forgot-password" className="w-full mt-4 text-sm font-bold text-green-600 hover:underline">
+                        Forgot Password?
+                    </Link>
+                )}
             </div>
         </div>
     );
