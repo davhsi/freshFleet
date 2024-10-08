@@ -62,7 +62,7 @@ const RecipeProducts = () => {
   }, [recipe]);
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-6 bg-gray-100 min-h-screen font-serif">
       <h1 className="text-3xl font-bold text-center text-green-700 mb-6">
         Ingredients for {recipe ? recipe.name : 'Recipe'}
       </h1>

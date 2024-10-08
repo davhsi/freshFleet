@@ -39,7 +39,7 @@ const RecipeList = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-6 bg-gray-100 min-h-screen font-serif">
       <h1 className="text-4xl font-bold text-center text-green-700 mb-8">Recipes List</h1>
 
       {/* Quote Section */}
