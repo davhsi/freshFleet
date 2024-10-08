@@ -24,26 +24,32 @@ const RecipeProducts = () => {
         }
         const productData = await response.json();
 
-        // Log the product data for debugging
-        console.log('Fetched products:', productData);
-
         // Transform ingredient names to match image filenames
         const transformIngredientName = (name) => name.toLowerCase().replace(/\s+/g, '_');
 
-        // Filter products based on transformed ingredient names
-        const matchingProducts = productData.filter(product =>
-          recipe.ingredients.some(ingredient =>
-            transformIngredientName(product.name) === transformIngredientName(ingredient)
-          )
-        );
+        // Create a map to store unique ingredients
+        const uniqueIngredients = new Map();
 
-        // Pass transformed ingredient names to the ProductCard
-        const transformedProducts = matchingProducts.map(product => ({
-          ...product,
-          transformedName: transformIngredientName(product.name)
-        }));
+        productData.forEach((product) => {
+          const transformedProductName = transformIngredientName(product.name);
 
-        setFilteredProducts(transformedProducts);
+          recipe.ingredients.forEach((ingredient) => {
+            const transformedIngredientName = transformIngredientName(ingredient);
+
+            // If the product matches the ingredient and is not yet in the map, add it
+            if (transformedProductName === transformedIngredientName && !uniqueIngredients.has(transformedIngredientName)) {
+              uniqueIngredients.set(transformedIngredientName, {
+                ...product,
+                transformedName: transformedProductName
+              });
+            }
+          });
+        });
+
+        // Convert map values to an array and set the filtered products
+        const uniqueProductArray = Array.from(uniqueIngredients.values());
+        setFilteredProducts(uniqueProductArray);
+
       } catch (error) {
         setError(`Error fetching products: ${error.message}`);
         console.error('Error fetching products:', error);
@@ -56,8 +62,8 @@ const RecipeProducts = () => {
   }, [recipe]);
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold text-center text-gray-700 mb-6">
+    <div className="p-6 bg-gray-100 min-h-screen font-serif">
+      <h1 className="text-3xl font-bold text-center text-green-700 mb-6">
         Ingredients for {recipe ? recipe.name : 'Recipe'}
       </h1>
 
