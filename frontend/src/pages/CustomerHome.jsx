@@ -15,6 +15,14 @@ const CustomerHome = () => {
   const navigate = useNavigate();
   const userId = localStorage.getItem('customerId');
 
+  // Helper function to calculate total vitamins
+  const calculateTotalVitamins = (vitamins) => {
+    const total = Object.values(vitamins)
+      .map((vitamin) => parseFloat(vitamin))  // Convert to number
+      .reduce((sum, value) => sum + value, 0); // Sum all vitamin values
+    return total;
+  };
+
   useEffect(() => {
     const storedName = localStorage.getItem('customerName');
     if (storedName && storedName.trim()) {
@@ -23,9 +31,11 @@ const CustomerHome = () => {
 
     // Transform product names for image matching
     const transformProductName = (name) => name.toLowerCase().replace(/\s+/g, '_');
+
     const allProducts = data.ingredients.map((product) => ({
       ...product,
       transformedName: transformProductName(product.name),
+      totalVitamins: calculateTotalVitamins(product.vitamins), // Add total vitamins
     }));
 
     setProducts(allProducts);
@@ -50,7 +60,9 @@ const CustomerHome = () => {
     .sort((a, b) => {
       if (!sortBy) return 0;
 
-      const comparison = parseFloat(a[sortBy]) - parseFloat(b[sortBy]);
+      const valueA = parseFloat(a[sortBy] || a.vitamins['Omega-3 Fatty Acid']);
+      const valueB = parseFloat(b[sortBy] || b.vitamins['Omega-3 Fatty Acid']);
+      const comparison = valueA - valueB;
       return sortOrder === 'asc' ? comparison : -comparison;
     });
 
@@ -65,13 +77,10 @@ const CustomerHome = () => {
     <div className="min-h-screen p-4 md:p-8 lg:p-12">
       {/* Logo and Greeting Container */}
       <div className="flex flex-col md:flex-row items-center justify-between lg:ml-8 mb-6">
-        {/* Logo */}
         <h1 className="text-4xl md:text-5xl font-bold text-gray-700 mb-2">
           <span style={{ color: 'green', fontWeight: 'bold', fontFamily: "'Edu Australia', cursive" }}>Fresh</span>{' '}
           <span style={{ color: 'black', fontWeight: 'bold', fontFamily: "'Edu Australia', cursive" }}>Fleet</span>
         </h1>
-        
-        {/* Greeting */}
         <h1 className="text-2xl md:text-5xl font-bold text-gray-700 ml-4">
           <span style={{ color: 'black', fontWeight: 'bold', fontFamily: "'Edu Australia', cursive" }}>Hello</span>{' '}
           <span style={{ color: 'green', fontWeight: 'bold', fontFamily: "'Edu Australia', cursive" }}>{customerName}!</span>
@@ -80,7 +89,6 @@ const CustomerHome = () => {
 
       {/* Search box, sort, and buttons container */}
       <div className="mb-6 flex flex-col md:flex-row md:justify-between md:items-center space-y-4 md:space-y-0 lg:mx-8">
-        {/* Search Input */}
         <input
           type="text"
           placeholder="Search for products..."
@@ -102,6 +110,8 @@ const CustomerHome = () => {
             <option value="carbohydrates">Sort by Carbohydrates</option>
             <option value="protein">Sort by Protein</option>
             <option value="fibers">Sort by Fibers</option>
+            <option value="totalVitamins">Sort by Total Vitamins</option> {/* New sorting option */}
+            <option value="Omega-3 Fatty Acid">Sort by Omega-3 Fatty Acid</option> {/* New sorting option */}
           </select>
   
           <select
@@ -122,14 +132,12 @@ const CustomerHome = () => {
           >
             MyCart
           </button>
-  
           <button
             onClick={() => navigate('/recipes')}
             className="custom-button px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
           >
             Recipes
           </button>
-  
           <button
             onClick={handleLogout}
             className="custom-button px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
