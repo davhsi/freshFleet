@@ -3,7 +3,7 @@ import axios from 'axios';
 import { API_BASE_URL } from '../config';
 import AddProductForm from '../components/vendor/AddProductForm';
 import VendorProductsTable from '../components/vendor/VendorProductsTable';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom'; 
 
 const AddProduct = () => {
     const [products, setProducts] = useState([]);
@@ -14,7 +14,7 @@ const AddProduct = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [vendorProducts, setVendorProducts] = useState([]);
     const [vendorName, setVendorName] = useState('');
-    const navigate = useNavigate(); // Create navigate function
+    const navigate = useNavigate(); 
 
     useEffect(() => {
         import('../data/data.json').then(data => {

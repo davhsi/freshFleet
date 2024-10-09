@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import ProductCard from '../components/customer/ProductCard';
-
+import { API_BASE_URL } from '../config';
 const RecipeProducts = () => {
   const location = useLocation();
   const { recipe } = location.state || {};
@@ -18,7 +18,7 @@ const RecipeProducts = () => {
 
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/products');
+        const response = await fetch(`${API_BASE_URL}/api/products`); 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }

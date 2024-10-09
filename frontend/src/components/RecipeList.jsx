@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { API_BASE_URL } from '../config'; 
 const RecipeList = () => {
   const [recipes, setRecipes] = useState([]);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
@@ -11,7 +11,7 @@ const RecipeList = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/recipes');
+        const response = await fetch(`${API_BASE_URL}/api/recipes`); 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }

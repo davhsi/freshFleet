@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../config'; // Import API_BASE_URL from config
 
 const Checkout = () => {
   const handleCheckout = async () => {
@@ -11,7 +12,7 @@ const Checkout = () => {
         mobileNumber: "9999999999" // Optional: Customer's mobile number
       };
 
-      const response = await axios.post('http://localhost:5000/api/payment/pay', checkoutData);
+      const response = await axios.post(`${API_BASE_URL}/api/payment/pay`, checkoutData); // Use API_BASE_URL here
       console.log('Checkout response:', response.data);
 
       if (response.data.success && response.data.data.instrumentResponse) {
