@@ -8,6 +8,7 @@ const ResetPassword = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);  // Added loading state
     const { token } = useParams();  // Grab token from URL params
     const navigate = useNavigate();
 
@@ -18,14 +19,21 @@ const ResetPassword = () => {
             return;
         }
 
+        setIsLoading(true);  // Start loading
+        setErrorMessage('');
+        setSuccessMessage('');
+
         try {
             const response = await axios.post(`${API_BASE_URL}/api/customer/reset-password`, {
                 token,  // Include the token in the request body
                 newPassword
             });
 
-            setSuccessMessage('Password reset successful! Redirecting to login...');
-            setTimeout(() => navigate('/auth/customer'), 3000); // Redirect to login page
+            setSuccessMessage('Password reset successful! You will be redirected to the login page in a few seconds.');
+            setTimeout(() => {
+                alert('Mail sent');  // Show pop-up when successful
+                navigate('/auth/customer'); // Redirect to login page
+            }, 3000); // Redirect after 3 seconds
         } catch (error) {
             console.error('Error resetting password:', error);
             if (error.response && error.response.data) {
@@ -33,6 +41,8 @@ const ResetPassword = () => {
             } else {
                 setErrorMessage('Something went wrong. Please try again.');
             }
+        } finally {
+            setIsLoading(false);  // Stop loading
         }
     };
 
@@ -52,6 +62,7 @@ const ResetPassword = () => {
                             onChange={(e) => setNewPassword(e.target.value)}
                             className="w-full px-4 py-2 mt-2 border rounded-md"
                             required
+                            disabled={isLoading}  // Disable input while loading
                         />
                     </div>
                     <div>
@@ -62,13 +73,15 @@ const ResetPassword = () => {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             className="w-full px-4 py-2 mt-2 border rounded-md"
                             required
+                            disabled={isLoading}  // Disable input while loading
                         />
                     </div>
                     <button
                         type="submit"
-                        className="w-full px-4 py-2 font-bold text-white bg-green-600 rounded-md"
+                        className={`w-full px-4 py-2 font-bold text-white bg-green-600 rounded-md ${isLoading && 'opacity-50 cursor-not-allowed'}`}
+                        disabled={isLoading}  // Disable button while loading
                     >
-                        Reset Password
+                        {isLoading ? 'Processing...' : 'Reset Password'}
                     </button>
                 </form>
             </div>
