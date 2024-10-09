@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../../config';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();  // Use navigate for redirection
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();
@@ -15,8 +17,19 @@ const ForgotPassword = () => {
     try {
       const response = await axios.post(`${API_BASE_URL}/api/customer/forget-password`, { email });
       setSuccessMessage('Reset password email sent! Please check your inbox.');
+
+      // Show a pop-up for success
+      alert('Mail sent successfully! You will be redirected to the sign-in page.');
+
+      // Redirect to sign-in page after 3 seconds
+      setTimeout(() => {
+        navigate('/auth/customer');
+      }, 3000);
     } catch (error) {
       setErrorMessage('Failed to send reset password email.');
+
+      // Show a pop-up for failure
+      alert('Failed to send reset email. Please try again.');
     }
   };
 

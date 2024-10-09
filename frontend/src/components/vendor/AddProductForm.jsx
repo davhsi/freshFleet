@@ -56,7 +56,7 @@ const AddProductForm = ({
                         </div>
                         <button
                             type="submit"
-                            className="w-full bg-orange-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                            className="w-full bg-green-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
                         >
                             Add Product
                         </button>
