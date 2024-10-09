@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ProductCard from '../components/customer/ProductCard';
 import { API_BASE_URL } from '../config';
+import { FaArrowLeft } from 'react-icons/fa'; // Import the back icon
+
 const RecipeProducts = () => {
   const location = useLocation();
+  const navigate = useNavigate(); // Initialize useNavigate for navigation
   const { recipe } = location.state || {};
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [error, setError] = useState(null);
@@ -24,10 +27,8 @@ const RecipeProducts = () => {
         }
         const productData = await response.json();
 
-        // Transform ingredient names to match image filenames
         const transformIngredientName = (name) => name.toLowerCase().replace(/\s+/g, '_');
 
-        // Create a map to store unique ingredients
         const uniqueIngredients = new Map();
 
         productData.forEach((product) => {
@@ -36,17 +37,15 @@ const RecipeProducts = () => {
           recipe.ingredients.forEach((ingredient) => {
             const transformedIngredientName = transformIngredientName(ingredient);
 
-            // If the product matches the ingredient and is not yet in the map, add it
             if (transformedProductName === transformedIngredientName && !uniqueIngredients.has(transformedIngredientName)) {
               uniqueIngredients.set(transformedIngredientName, {
                 ...product,
-                transformedName: transformedProductName
+                transformedName: transformedProductName,
               });
             }
           });
         });
 
-        // Convert map values to an array and set the filtered products
         const uniqueProductArray = Array.from(uniqueIngredients.values());
         setFilteredProducts(uniqueProductArray);
 
@@ -61,8 +60,22 @@ const RecipeProducts = () => {
     fetchProducts();
   }, [recipe]);
 
+  // Back button handler
+  const handleBack = () => {
+    navigate(-1); // Navigate to the previous page
+  };
+
   return (
     <div className="p-6 bg-gray-100 min-h-screen font-serif">
+      {/* Back button */}
+      <button
+        onClick={handleBack}
+        className="text-gray-700 hover:text-blue-500 flex items-center mb-6"
+      >
+        <FaArrowLeft className="mr-2" /> {/* Back icon */}
+        Back
+      </button>
+
       <h1 className="text-3xl font-bold text-center text-green-700 mb-6">
         Ingredients for {recipe ? recipe.name : 'Recipe'}
       </h1>
