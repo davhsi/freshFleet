@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../config'; 
+import { FaArrowLeft } from 'react-icons/fa'; // Import back icon
+
 const RecipeList = () => {
   const [recipes, setRecipes] = useState([]);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
@@ -38,8 +40,22 @@ const RecipeList = () => {
     navigate(`/recipe-products/${recipe.name}`, { state: { recipe } });
   };
 
+  // Back button handler
+  const handleBack = () => {
+    navigate(-1); // Navigate to the previous page
+  };
+
   return (
     <div className="p-6 bg-gray-100 min-h-screen font-serif">
+      {/* Back button */}
+      <button
+        onClick={handleBack}
+        className="text-gray-700 hover:text-blue-500 flex items-center mb-6"
+      >
+        <FaArrowLeft className="mr-2" /> {/* Back icon */}
+        Back
+      </button>
+
       <h1 className="text-4xl font-bold text-center text-green-700 mb-8">Recipes List</h1>
 
       {/* Quote Section */}

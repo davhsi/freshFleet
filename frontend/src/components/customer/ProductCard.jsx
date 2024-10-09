@@ -9,7 +9,6 @@ const ProductCard = ({ product }) => {
   const handleClick = () => {
     navigate(`/product/${name}`);
   };
-
   useEffect(() => {
     if (transformedName) {
       const checkImagePath = async () => {
