@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { API_BASE_URL } from "../config";
 
@@ -9,7 +9,6 @@ const CartPage = () => {
   const [total, setTotal] = useState(0);
   const userId = localStorage.getItem("customerId");
 
-  // Fetch cart data
   useEffect(() => {
     if (!userId) {
       setError("User ID is not available");
@@ -33,7 +32,6 @@ const CartPage = () => {
     fetchCart();
   }, [userId]);
 
-  // Calculate total price of all items
   const calculateTotal = (items) => {
     const totalCost = items.reduce(
       (acc, item) => acc + (item.quantity * item.pricePerKg || 0),
@@ -42,7 +40,6 @@ const CartPage = () => {
     setTotal(totalCost);
   };
 
-  // Remove a single item from cart
   const handleRemoveItem = async (productId) => {
     try {
       const response = await axios.delete(
@@ -62,7 +59,6 @@ const CartPage = () => {
     }
   };
 
-  // Update item quantity in cart
   const handleUpdateQuantity = async (productId, newQuantity) => {
     try {
       const response = await axios.put(
@@ -85,19 +81,16 @@ const CartPage = () => {
     }
   };
 
-  // Handle quantity increase
   const handleIncreaseQuantity = (productId, quantity) => {
     handleUpdateQuantity(productId, quantity + 1);
   };
 
-  // Handle quantity decrease
   const handleDecreaseQuantity = (productId, quantity) => {
     if (quantity > 1) {
       handleUpdateQuantity(productId, quantity - 1);
     }
   };
 
-  // Clear all items from the cart
   const handleClearCart = async () => {
     try {
       const response = await axios.delete(
@@ -114,127 +107,107 @@ const CartPage = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error loading cart: {error}</div>;
+  if (loading) return <div style={styles.loading}>Loading...</div>;
+  if (error) return <div style={styles.error}>Error loading cart: {error}</div>;
 
   return (
-    <div className="cart-container p-4">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6 text-center">Your Cart</h1>
+    <div style={styles.cartContainer}>
+      <div style={styles.cartContent}>
+        <h1 style={styles.title}>Your Cart</h1>
         {cart.length === 0 ? (
-          <div className="text-center">
-            <p className="text-xl">Your cart is empty. Add more items!</p>
+          <div style={styles.emptyCart}>
+            <p>Your cart is empty. Add more items!</p>
             <button
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4 hover:bg-blue-600 transition duration-200"
+              style={styles.button}
               onClick={() => (window.location.href = "/home")}
             >
               Continue Shopping
             </button>
           </div>
         ) : (
-          <div className="w-full">
-            <div className="text-xl font-semibold mb-6 text-right">
-              Total: ${total.toFixed(2)}
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div>
+            <div style={styles.total}>Total: ${total.toFixed(2)}</div>
+
+            <div style={styles.cartItems}>
               {cart.map((item) => (
-                <div
-                  key={item.product?._id || Math.random()}
-                  className="border border-gray-300 rounded-lg shadow-lg p-4"
-                >
-                  {item.product ? (
-                    <>
-                      <img
-                        src={`/${item.product.name
+                <div key={item.product?._id} style={styles.cartItem}>
+                  <img
+                    src={`/${item.product.name
+                      ?.toLowerCase()
+                      ?.replace(/ /g, "_")}.jpg`}
+                    alt={item.product.name}
+                    style={styles.itemImage}
+                    onError={(e) => {
+                      const imgElement = e.target;
+                      if (imgElement.src.includes(".jpg")) {
+                        imgElement.src = `/${item.product.name
                           ?.toLowerCase()
-                          ?.replace(/ /g, "_")}.jpg`}
-                        alt={item.product.name}
-                        className="w-full h-64 object-cover rounded-lg mb-4"
-                        onError={(e) => {
-                          const imgElement = e.target;
-                          if (imgElement.src.includes(".jpg")) {
-                            imgElement.src = `/${item.product.name
-                              ?.toLowerCase()
-                              ?.replace(/ /g, "_")}.jpeg`;
-                          } else {
-                            imgElement.src = "/placeholder.jpg";
-                            console.error(
-                              `Image not found for product: ${item.product.name}`
-                            );
-                          }
-                        }}
-                      />
-                      <h3 className="text-lg font-bold">
-                        {item.product.name}
-                      </h3>
-                      <p className="text-gray-600">
-                        Vendor:{" "}
-                        {item.vendorId ? item.vendorId.name : "Vendor Name"}
-                      </p>
-                      <p className="text-lg">Price per Kg: ${item.pricePerKg}</p>
-                      <p className="font-semibold text-lg">
-                        Total: ${(item.pricePerKg * item.quantity).toFixed(2)}
-                      </p>
-                      <div className="flex items-center mt-2">
-                        <button
-                          className="bg-gray-300 text-black px-2 py-1 rounded-lg mr-2 hover:bg-gray-400 transition duration-200"
-                          onClick={() =>
-                            handleDecreaseQuantity(
-                              item.product._id,
-                              item.quantity
-                            )
-                          }
-                        >
-                          -
-                        </button>
-                        <input
-                          type="number"
-                          min="1"
-                          value={item.quantity}
-                          readOnly
-                          className="w-16 border rounded-lg text-center text-lg"
-                        />
-                        <button
-                          className="bg-gray-300 text-black px-2 py-1 rounded-lg ml-2 hover:bg-gray-400 transition duration-200"
-                          onClick={() =>
-                            handleIncreaseQuantity(
-                              item.product._id,
-                              item.quantity
-                            )
-                          }
-                        >
-                          +
-                        </button>
-                      </div>
-                      <button
-                        className="bg-red-500 text-white px-4 py-2 mt-4 rounded-lg hover:bg-red-600 transition duration-200 w-full"
-                        onClick={() => handleRemoveItem(item.product._id)}
-                      >
-                        Remove
-                      </button>
-                    </>
-                  ) : (
-                    <p>Product information is unavailable</p>
-                  )}
+                          ?.replace(/ /g, "_")}.jpeg`;
+                      } else {
+                        imgElement.src = "/placeholder.jpg";
+                        console.error(
+                          `Image not found for product: ${item.product.name}`
+                        );
+                      }
+                    }}
+                  />
+                  <div style={styles.itemDetails}>
+                    <h3 style={styles.itemName}>{item.product.name}</h3>
+                    <p>
+                      Vendor: {item.vendorId ? item.vendorId.name : "Vendor Name"}
+                    </p>
+                    <p style={styles.price}>Price per Kg: ${item.pricePerKg}</p>
+                    <p style={styles.totalItemPrice}>
+                      Total: ${(item.pricePerKg * item.quantity).toFixed(2)}
+                    </p>
+                  </div>
+                  <div style={styles.quantityControls}>
+                    <button
+                      style={styles.controlButton}
+                      onClick={() =>
+                        handleDecreaseQuantity(item.product._id, item.quantity)
+                      }
+                    >
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      min="1"
+                      value={item.quantity}
+                      readOnly
+                      style={styles.quantityInput}
+                    />
+                    <button
+                      style={styles.controlButton}
+                      onClick={() =>
+                        handleIncreaseQuantity(item.product._id, item.quantity)
+                      }
+                    >
+                      +
+                    </button>
+                  </div>
+                  <button
+                    style={styles.removeButton}
+                    onClick={() => handleRemoveItem(item.product._id)}
+                  >
+                    Remove
+                  </button>
                 </div>
               ))}
             </div>
 
-            <div className="flex flex-col md:flex-row justify-center items-center mt-8">
+            <div style={styles.actionButtons}>
               <button
-                className="bg-gray-500 text-white px-4 py-2 rounded-lg mx-2 text-lg hover:bg-gray-600 transition duration-300 mb-4 md:mb-0"
+                style={styles.actionButton}
                 onClick={() => (window.location.href = "/home")}
               >
                 Continue Shopping
               </button>
-              <button
-                className="bg-yellow-500 text-white px-4 py-2 rounded-lg mx-2 text-lg hover:bg-yellow-600 transition duration-300 mb-4 md:mb-0"
-                onClick={handleClearCart}
-              >
+              <button style={styles.actionButton} onClick={handleClearCart}>
                 Clear Cart
               </button>
               <button
-                className="bg-green-500 text-white px-4 py-2 rounded-lg mx-2 text-lg hover:bg-green-600 transition duration-300"
+                style={styles.actionButton}
                 onClick={() => (window.location.href = "/checkout")}
               >
                 Proceed to Checkout
@@ -245,6 +218,137 @@ const CartPage = () => {
       </div>
     </div>
   );
+};
+
+// Updated Styles with media queries
+const styles = {
+  cartContainer: {
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    minHeight: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "10px",
+  },
+  cartContent: {
+    maxWidth: "800px",
+    width: "100%",
+    padding: "20px",
+    backgroundColor: "white",
+    borderRadius: "8px",
+    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+  },
+  title: {
+    textAlign: "center",
+    fontSize: "2rem",
+    marginBottom: "20px",
+  },
+  emptyCart: {
+    textAlign: "center",
+    fontSize: "1.2rem",
+  },
+  button: {
+    backgroundColor: "#007BFF",
+    color: "white",
+    padding: "10px 20px",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    width: "100%", // Full-width for small screens
+  },
+  total: {
+    fontSize: "1.5rem",
+    fontWeight: "bold",
+    marginBottom: "20px",
+    textAlign: "right",
+  },
+  cartItems: {
+    marginBottom: "20px",
+  },
+  cartItem: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    border: "1px solid #ccc",
+    padding: "10px",
+    borderRadius: "5px",
+    marginBottom: "10px",
+    flexWrap: "wrap", // Wrap items on smaller screens
+  },
+  itemImage: {
+    width: "80px",
+    height: "80px",
+    objectFit: "cover",
+    borderRadius: "5px",
+    marginRight: "10px",
+  },
+  itemDetails: {
+    flex: "1",
+    marginLeft: "10px",
+  },
+  itemName: {
+    fontSize: "1.2rem",
+    fontWeight: "bold",
+  },
+  price: {
+    marginBottom: "5px",
+  },
+  totalItemPrice: {
+    fontWeight: "bold",
+    color: "#007BFF",
+  },
+  quantityControls: {
+    display: "flex",
+    alignItems: "center",
+    marginRight: "10px", // Add space between controls and remove button
+  },
+  controlButton: {
+    backgroundColor: "#f0f0f0",
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+    width: "30px",
+    height: "30px",
+    cursor: "pointer",
+    textAlign: "center",
+    margin: "0 5px", // Add space between - and + buttons
+  },
+  quantityInput: {
+    width: "40px",
+    textAlign: "center",
+  },
+  removeButton: {
+    backgroundColor: "red",
+    color: "white",
+    padding: "5px 10px",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    marginLeft: "10px", // Add space between quantity controls and remove button
+  },
+  actionButtons: {
+    display: "flex",
+    justifyContent: "space-between",
+    flexWrap: "wrap", // Make buttons stack on smaller screens
+    gap: "10px",
+  },
+  actionButton: {
+    backgroundColor: "#007BFF",
+    color: "white",
+    padding: "10px 20px",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    flex: "1 1 30%", // Adjust button width and allow wrapping
+  },
+  loading: {
+    textAlign: "center",
+    fontSize: "1.5rem",
+  },
+  error: {
+    textAlign: "center",
+    fontSize: "1.5rem",
+    color: "red",
+  },
 };
 
 export default CartPage;
