@@ -31,7 +31,6 @@ const ResetPassword = () => {
 
             setSuccessMessage('Password reset successful! You will be redirected to the login page in a few seconds.');
             setTimeout(() => {
-                alert('Mail sent');  // Show pop-up when successful
                 navigate('/auth/customer'); // Redirect to login page
             }, 3000); // Redirect after 3 seconds
         } catch (error) {
