@@ -64,28 +64,35 @@ exports.getCart = async (req, res) => {
 // Update Cart Item Quantity
 exports.updateCartItem = async (req, res) => {
   try {
-    const { userId, productId } = req.params;
+    const { userId, productId } = req.params; // productId is actually the item._id in this case
     const { quantity } = req.body;
-    const cart = await Cart.findOne({ userId });
-    
-    if (!cart) return res.status(404).json({ message: "Cart not found" });
-    
-    const item = cart.items.find(item => item.product.toString() === productId);
-    if (item) {
-      item.quantity = quantity;
-      await cart.save();
-      return res.status(200).json({ message: "Cart item updated", cart });
-    } else {
+
+    if (!userId || !productId || !quantity) {
+      return res.status(400).json({ message: "User ID, product ID (item ID), and quantity are required" });
+    }
+
+    // Update the quantity of the specific item
+    const updatedCart = await Cart.findOneAndUpdate(
+      { userId, "items._id": productId }, // Match the correct cart item by item._id
+      { $set: { "items.$.quantity": quantity } }, // Update the quantity
+      { new: true }
+    );
+
+    if (!updatedCart) {
       return res.status(404).json({ message: "Item not found in cart" });
     }
+
+    res.json({ message: "Cart item updated", cart: updatedCart });
   } catch (error) {
-    console.error("Error updating cart item:", error);
-    return res.status(500).json({ message: "Internal Server Error" });
+    console.error("Error updating cart item quantity:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
 
-// Remove Item from Cart
+
+// In your cartController.js
+
 exports.removeCartItem = async (req, res) => {
   try {
     const { userId, itemId } = req.params;
@@ -96,7 +103,7 @@ exports.removeCartItem = async (req, res) => {
     const updatedCart = await Cart.findOneAndUpdate(
       { userId },
       { $pull: { items: { _id: itemId } } },
-      { new: true }
+      { new: true } // This ensures you get the updated cart back
     );
 
     if (!updatedCart) return res.status(404).json({ message: 'Item not found in cart' });
@@ -107,6 +114,7 @@ exports.removeCartItem = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
 
 // Clear Cart
 exports.clearCart = async (req, res) => {
