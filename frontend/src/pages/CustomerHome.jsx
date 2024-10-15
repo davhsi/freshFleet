@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProductCard from '../components/customer/ProductCard';
 import axios from 'axios';
@@ -15,12 +15,45 @@ const CustomerHome = () => {
   const navigate = useNavigate();
   const userId = localStorage.getItem('customerId');
 
+  // Load Google Translate script
+  useEffect(() => {
+    // Function to initialize the Google Translate widget
+    const initializeGoogleTranslate = () => {
+      if (typeof window.google !== 'undefined' && window.google.translate) {
+        new window.google.translate.TranslateElement({
+          pageLanguage: 'en',
+          includedLanguages: 'ta,en',
+          layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
+        }, 'google_translate_element');
+      }
+    };
+
+    // Check if the Google Translate script has already been added
+    const existingScript = document.getElementById('google-translate-script');
+    if (!existingScript) {
+      const script = document.createElement("script");
+      script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      script.id = 'google-translate-script';
+      script.async = true;
+      document.body.appendChild(script);
+      script.onload = initializeGoogleTranslate; // Initialize after script loads
+    } else {
+      initializeGoogleTranslate(); // Initialize if script already exists
+    }
+
+    return () => {
+      // Clean up script on component unmount
+      if (existingScript) {
+        document.body.removeChild(existingScript);
+      }
+    };
+  }, []);
+
   // Helper function to calculate total vitamins
   const calculateTotalVitamins = (vitamins) => {
-    const total = Object.values(vitamins)
-      .map((vitamin) => parseFloat(vitamin))  // Convert to number
-      .reduce((sum, value) => sum + value, 0); // Sum all vitamin values
-    return total;
+    return Object.values(vitamins)
+      .map(parseFloat)
+      .reduce((sum, value) => sum + (isNaN(value) ? 0 : value), 0);
   };
 
   useEffect(() => {
@@ -35,7 +68,7 @@ const CustomerHome = () => {
     const allProducts = data.ingredients.map((product) => ({
       ...product,
       transformedName: transformProductName(product.name),
-      totalVitamins: calculateTotalVitamins(product.vitamins), // Add total vitamins
+      totalVitamins: calculateTotalVitamins(product.vitamins),
     }));
 
     setProducts(allProducts);
@@ -47,6 +80,7 @@ const CustomerHome = () => {
         setCart(response.data.items);
       } catch (error) {
         console.error('Error fetching cart:', error);
+        // Consider showing an error message to the user
       }
     };
 
@@ -55,16 +89,18 @@ const CustomerHome = () => {
     }
   }, [userId]);
 
-  const filteredProducts = products
-    .filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    .sort((a, b) => {
-      if (!sortBy) return 0;
+  const filteredProducts = useMemo(() => {
+    return products
+      .filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
+      .sort((a, b) => {
+        if (!sortBy) return 0;
 
-      const valueA = parseFloat(a[sortBy] || a.vitamins['Omega-3 Fatty Acid']);
-      const valueB = parseFloat(b[sortBy] || b.vitamins['Omega-3 Fatty Acid']);
-      const comparison = valueA - valueB;
-      return sortOrder === 'asc' ? comparison : -comparison;
-    });
+        const valueA = parseFloat(a[sortBy] || a.vitamins['Omega-3 Fatty Acid']);
+        const valueB = parseFloat(b[sortBy] || b.vitamins['Omega-3 Fatty Acid']);
+        const comparison = valueA - valueB;
+        return sortOrder === 'asc' ? comparison : -comparison;
+      });
+  }, [products, searchTerm, sortBy, sortOrder]);
 
   // Logout function
   const handleLogout = () => {
@@ -75,6 +111,9 @@ const CustomerHome = () => {
 
   return (
     <div className="min-h-screen p-4 md:p-8 lg:p-12">
+      {/* Google Translate Widget */}
+     
+
       {/* Logo and Greeting Container */}
       <div className="flex flex-col md:flex-row items-center justify-between lg:ml-8 mb-6">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-700 mb-2">
@@ -110,8 +149,8 @@ const CustomerHome = () => {
             <option value="carbohydrates">Sort by Carbohydrates</option>
             <option value="protein">Sort by Protein</option>
             <option value="fibers">Sort by Fibers</option>
-            <option value="totalVitamins">Sort by Total Vitamins</option> {/* New sorting option */}
-            <option value="Omega-3 Fatty Acid">Sort by Omega-3 Fatty Acid</option> {/* New sorting option */}
+            <option value="totalVitamins">Sort by Total Vitamins</option>
+            <option value="Omega-3 Fatty Acid">Sort by Omega-3 Fatty Acid</option>
           </select>
   
           <select
