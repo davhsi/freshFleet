@@ -28,7 +28,7 @@ const QuantityModal = ({ product, isOpen, onClose, onAddToCart }) => {
             className="w-full h-32 object-cover rounded-lg mb-4"
           />
           <h3 className="text-lg font-semibold">{product.name}</h3>
-          <p className="text-gray-600">Price per Kg: ${product.pricePerKg}</p>
+          <p className="text-gray-600">Price per Kg: ₹{product.pricePerKg}</p>
         </div>
         <div className="mb-4">
           <label className="block mb-2 font-semibold">Quantity (Kg)</label>
@@ -41,7 +41,7 @@ const QuantityModal = ({ product, isOpen, onClose, onAddToCart }) => {
           />
         </div>
         <div className="mb-4">
-          <p className="font-semibold">Total Cost: ${cost}</p>
+          <p className="font-semibold">Total Cost: ₹{cost}</p>
         </div>
         <div className="flex justify-end">
           <button
