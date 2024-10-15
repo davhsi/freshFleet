@@ -107,18 +107,18 @@ const CartPage = () => {
     }
   };
 
-  if (loading) return <div style={styles.loading}>Loading...</div>;
-  if (error) return <div style={styles.error}>Error loading cart: {error}</div>;
+  if (loading) return <div className="text-center text-2xl">Loading...</div>;
+  if (error) return <div className="text-center text-2xl text-red-500">Error loading cart: {error}</div>;
 
   return (
-    <div style={styles.cartContainer}>
-      <div style={styles.cartContent}>
-        <h1 style={styles.title}>Your Cart</h1>
+    <div className="min-h-screen flex justify-center items-center bg-gray-100 p-4">
+      <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-lg">
+        <h1 className="text-center text-3xl mb-6 font-bold">Your Cart</h1>
         {cart.length === 0 ? (
-          <div style={styles.emptyCart}>
-            <p>Your cart is empty. Add more items!</p>
+          <div className="text-center">
+            <p className="text-lg mb-4">Your cart is empty. Add more items!</p>
             <button
-              style={styles.button}
+              className="bg-blue-500 text-white py-2 px-4 rounded w-full"
               onClick={() => (window.location.href = "/home")}
             >
               Continue Shopping
@@ -126,17 +126,22 @@ const CartPage = () => {
           </div>
         ) : (
           <div>
-            <div style={styles.total}>Total: ${total.toFixed(2)}</div>
+            <div className="text-right text-xl font-bold mb-4">
+              Total: ₹{total.toFixed(2)}
+            </div>
 
-            <div style={styles.cartItems}>
+            <div className="space-y-4">
               {cart.map((item) => (
-                <div key={item.product?._id} style={styles.cartItem}>
+                <div
+                  key={item.product?._id}
+                  className="flex items-center justify-between border border-gray-300 p-4 rounded-lg"
+                >
                   <img
                     src={`/${item.product.name
                       ?.toLowerCase()
                       ?.replace(/ /g, "_")}.jpg`}
                     alt={item.product.name}
-                    style={styles.itemImage}
+                    className="w-20 h-20 object-cover rounded"
                     onError={(e) => {
                       const imgElement = e.target;
                       if (imgElement.src.includes(".jpg")) {
@@ -151,19 +156,21 @@ const CartPage = () => {
                       }
                     }}
                   />
-                  <div style={styles.itemDetails}>
-                    <h3 style={styles.itemName}>{item.product.name}</h3>
+                  <div className="flex-1 ml-4">
+                    <h3 className="text-lg font-bold">{item.product.name}</h3>
                     <p>
                       Vendor: {item.vendorId ? item.vendorId.name : "Vendor Name"}
                     </p>
-                    <p style={styles.price}>Price per Kg: ${item.pricePerKg}</p>
-                    <p style={styles.totalItemPrice}>
-                      Total: ${(item.pricePerKg * item.quantity).toFixed(2)}
+                    <p className="text-gray-600">
+                      Price per Kg: ₹{item.pricePerKg}
+                    </p>
+                    <p className="font-bold text-blue-600">
+                      Total: ₹{(item.pricePerKg * item.quantity).toFixed(2)}
                     </p>
                   </div>
-                  <div style={styles.quantityControls}>
+                  <div className="flex items-center">
                     <button
-                      style={styles.controlButton}
+                      className="bg-gray-200 p-2 rounded"
                       onClick={() =>
                         handleDecreaseQuantity(item.product._id, item.quantity)
                       }
@@ -175,10 +182,10 @@ const CartPage = () => {
                       min="1"
                       value={item.quantity}
                       readOnly
-                      style={styles.quantityInput}
+                      className="mx-2 w-12 text-center border border-gray-300 rounded"
                     />
                     <button
-                      style={styles.controlButton}
+                      className="bg-gray-200 p-2 rounded"
                       onClick={() =>
                         handleIncreaseQuantity(item.product._id, item.quantity)
                       }
@@ -187,7 +194,7 @@ const CartPage = () => {
                     </button>
                   </div>
                   <button
-                    style={styles.removeButton}
+                    className="ml-4 bg-red-500 text-white py-2 px-4 rounded"
                     onClick={() => handleRemoveItem(item.product._id)}
                   >
                     Remove
@@ -196,18 +203,21 @@ const CartPage = () => {
               ))}
             </div>
 
-            <div style={styles.actionButtons}>
+            <div className="flex justify-between mt-6">
               <button
-                style={styles.actionButton}
+                className="bg-blue-500 text-white py-2 px-4 rounded"
                 onClick={() => (window.location.href = "/home")}
               >
                 Continue Shopping
               </button>
-              <button style={styles.actionButton} onClick={handleClearCart}>
+              <button
+                className="bg-red-500 text-white py-2 px-4 rounded"
+                onClick={handleClearCart}
+              >
                 Clear Cart
               </button>
               <button
-                style={styles.actionButton}
+                className="bg-green-500 text-white py-2 px-4 rounded"
                 onClick={() => (window.location.href = "/checkout")}
               >
                 Proceed to Checkout
@@ -218,137 +228,6 @@ const CartPage = () => {
       </div>
     </div>
   );
-};
-
-// Updated Styles with media queries
-const styles = {
-  cartContainer: {
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
-    minHeight: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: "10px",
-  },
-  cartContent: {
-    maxWidth: "800px",
-    width: "100%",
-    padding: "20px",
-    backgroundColor: "white",
-    borderRadius: "8px",
-    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-  },
-  title: {
-    textAlign: "center",
-    fontSize: "2rem",
-    marginBottom: "20px",
-  },
-  emptyCart: {
-    textAlign: "center",
-    fontSize: "1.2rem",
-  },
-  button: {
-    backgroundColor: "#007BFF",
-    color: "white",
-    padding: "10px 20px",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    width: "100%", // Full-width for small screens
-  },
-  total: {
-    fontSize: "1.5rem",
-    fontWeight: "bold",
-    marginBottom: "20px",
-    textAlign: "right",
-  },
-  cartItems: {
-    marginBottom: "20px",
-  },
-  cartItem: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    border: "1px solid #ccc",
-    padding: "10px",
-    borderRadius: "5px",
-    marginBottom: "10px",
-    flexWrap: "wrap", // Wrap items on smaller screens
-  },
-  itemImage: {
-    width: "80px",
-    height: "80px",
-    objectFit: "cover",
-    borderRadius: "5px",
-    marginRight: "10px",
-  },
-  itemDetails: {
-    flex: "1",
-    marginLeft: "10px",
-  },
-  itemName: {
-    fontSize: "1.2rem",
-    fontWeight: "bold",
-  },
-  price: {
-    marginBottom: "5px",
-  },
-  totalItemPrice: {
-    fontWeight: "bold",
-    color: "#007BFF",
-  },
-  quantityControls: {
-    display: "flex",
-    alignItems: "center",
-    marginRight: "10px", // Add space between controls and remove button
-  },
-  controlButton: {
-    backgroundColor: "#f0f0f0",
-    border: "1px solid #ccc",
-    borderRadius: "5px",
-    width: "30px",
-    height: "30px",
-    cursor: "pointer",
-    textAlign: "center",
-    margin: "0 5px", // Add space between - and + buttons
-  },
-  quantityInput: {
-    width: "40px",
-    textAlign: "center",
-  },
-  removeButton: {
-    backgroundColor: "red",
-    color: "white",
-    padding: "5px 10px",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    marginLeft: "10px", // Add space between quantity controls and remove button
-  },
-  actionButtons: {
-    display: "flex",
-    justifyContent: "space-between",
-    flexWrap: "wrap", // Make buttons stack on smaller screens
-    gap: "10px",
-  },
-  actionButton: {
-    backgroundColor: "#007BFF",
-    color: "white",
-    padding: "10px 20px",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    flex: "1 1 30%", // Adjust button width and allow wrapping
-  },
-  loading: {
-    textAlign: "center",
-    fontSize: "1.5rem",
-  },
-  error: {
-    textAlign: "center",
-    fontSize: "1.5rem",
-    color: "red",
-  },
 };
 
 export default CartPage;
