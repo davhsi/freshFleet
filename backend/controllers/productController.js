@@ -26,7 +26,7 @@ exports.createProduct = async (req, res) => {
 // Get all products
 exports.getProducts = async (req, res) => {
     try {
-        const products = await Product.find();
+        const products = await Product.find().populate('vendorId', 'name email');
         res.status(200).json(products);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -50,20 +50,20 @@ exports.getProductById = async (req, res) => {
 
 // Get products by vendor
 exports.getProductsByVendor = async (req, res) => {
-  try {
-      const { vendorId } = req.params;
-      const products = await Product.find({ vendorId });
-
-      if (!products.length) {
-          return res.status(404).json({ message: 'No products found for this vendor.' });
-      }
-
-      res.json(products);
-  } catch (error) {
-      console.error('Error fetching products:', error);
-      res.status(500).json({ message: 'Failed to fetch products' });
-  }
-};
+    try {
+        const { vendorId } = req.params;
+        const products = await Product.find({ vendorId }).populate('vendorId', 'name email');
+  
+        if (!products.length) {
+            return res.status(404).json({ message: 'No products found for this vendor.' });
+        }
+  
+        res.json(products);
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).json({ message: 'Failed to fetch products' });
+    }
+  };
 
 // Update a product by ID
 exports.updateProduct = async (req, res) => {
