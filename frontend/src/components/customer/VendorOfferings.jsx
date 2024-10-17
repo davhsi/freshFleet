@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { API_BASE_URL } from '../../config';
-import QuantityModal from './QuantityModal';
+import React, { useState } from "react";
+import axios from "axios";
+import { API_BASE_URL } from "../../config";
+import QuantityModal from "./QuantityModal";
 
 const VendorOfferings = ({ sortedProductData, userId }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -24,18 +24,21 @@ const VendorOfferings = ({ sortedProductData, userId }) => {
         },
       };
 
-      console.log('Adding to cart:', cartItem);
+      console.log("Adding to cart:", cartItem);
 
-      const response = await axios.post(`${API_BASE_URL}/api/cart/add`, cartItem);
+      const response = await axios.post(
+        `${API_BASE_URL}/api/cart/add`,
+        cartItem
+      );
 
       if (response.status === 200) {
-        alert('Product added to cart successfully!');
+        alert("Product added to cart successfully!");
       } else {
-        alert('Failed to add product to cart');
+        alert("Failed to add product to cart");
       }
     } catch (error) {
-      console.error('Error adding product to cart', error);
-      alert('Error adding product to cart');
+      console.error("Error adding product to cart", error);
+      alert("Error adding product to cart");
     }
   };
 
@@ -49,11 +52,18 @@ const VendorOfferings = ({ sortedProductData, userId }) => {
       <h3 className="text-lg font-bold mb-2">Vendor Offerings</h3>
       <ul>
         {sortedProductData.map((product) => (
-          <li key={product._id} className="flex justify-between items-center mb-4">
+          <li
+            key={product._id}
+            className="flex justify-between items-center mb-4"
+          >
             <div className="text-gray-900 text-xl">
-              {product.name} - {product.pricePerKg} per kg
+              {product.name} - ₹{product.pricePerKg} per kg
               <div className="text-sm text-gray-500">
-                Vendor: {product.vendorId?.name || 'Unknown Vendor'}
+                Vendor:{" "}
+                {product.vendorName ? product.vendorName : "Unknown Vendor"}
+                <br />
+                Contact:{" "}
+                {product.vendorContact ? product.vendorContact : "No Contact"}
               </div>
             </div>
             <button
@@ -65,6 +75,7 @@ const VendorOfferings = ({ sortedProductData, userId }) => {
           </li>
         ))}
       </ul>
+
       {selectedProduct && (
         <QuantityModal
           product={selectedProduct}

@@ -5,6 +5,7 @@ import '../styles/tailwind.css';
 import { API_BASE_URL } from '../config';
 import AuthForm from '../components/auth/AuthForm';
 import SwitchAuthMode from '../components/auth/SwitchAuthMode';
+import Footer from '../components/Footer'; // Import Footer component
 
 const Auth = ({ role }) => {
     const [name, setName] = useState('');
@@ -71,37 +72,44 @@ const Auth = ({ role }) => {
     };
 
     return (
-        <div className="flex items-center justify-end min-h-screen bg-cover bg-center" 
-             style={{ backgroundImage: `url('/loginPage.jpeg')`}}>
-            <div className="w-full max-w-md p-8 m-8 space-y-6 bg-white rounded shadow-md">
-                <h2 className="text-2xl font-bold text-left text-green-700">{isSignUp ? 'Sign Up' : 'Sign In'}</h2>
-                
-                {successMessage && <p className="text-green-500 text-center">{successMessage}</p>}
-                {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
-                
-                <AuthForm 
-                    isSignUp={isSignUp}
-                    name={name}
-                    email={email}
-                    password={password}
-                    setName={setName}
-                    setEmail={setEmail}
-                    setPassword={setPassword}
-                    handleSubmit={handleSubmit}
-                />
-                
-                <SwitchAuthMode 
-                    isSignUp={isSignUp}
-                    toggleAuthMode={toggleAuthMode}
-                />
-                
-                {/* Link to Forgot Password */}
-                {!isSignUp && (
-                    <Link to="/forgot-password" className="w-full mt-4 text-sm font-bold text-green-600 hover:underline">
-                        Forgot Password?
-                    </Link>
-                )}
+        <div className="flex flex-col min-h-screen">
+            {/* Main Content */}
+            <div className="flex-grow flex items-center justify-center bg-cover bg-center"
+                style={{ backgroundImage: `url('/loginPage.jpeg')` }}> {/* Adjusted the form centering */}
+                <div className="w-full max-w-md p-8 m-8 space-y-6 bg-white rounded shadow-md">
+                    <h2 className="text-2xl font-bold text-left text-green-600">
+                        {isSignUp ? `Sign Up as ${role === 'vendor' ? 'Vendor' : 'Customer'}` : `Sign In as ${role === 'vendor' ? 'Vendor' : 'Customer'}`}
+                    </h2>
+
+                    {successMessage && <p className="text-green-500 text-center">{successMessage}</p>}
+                    {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
+
+                    <AuthForm
+                        isSignUp={isSignUp}
+                        name={name}
+                        email={email}
+                        password={password}
+                        setName={setName}
+                        setEmail={setEmail}
+                        setPassword={setPassword}
+                        handleSubmit={handleSubmit}
+                    />
+
+                    <SwitchAuthMode
+                        isSignUp={isSignUp}
+                        toggleAuthMode={toggleAuthMode}
+                    />
+
+                    {!isSignUp && (
+                        <Link to="/forgot-password" className="w-full mt-4 text-sm font-bold text-green-600 hover:underline">
+                            Forgot Password?
+                        </Link>
+                    )}
+                </div>
             </div>
+
+            {/* Footer at the bottom */}
+            <Footer />
         </div>
     );
 };
