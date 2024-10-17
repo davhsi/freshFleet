@@ -1,27 +1,30 @@
-import { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 // Import your components
-import CustomerAuth from './components/auth/CustomerAuth';
-import VendorAuth from './components/auth/VendorAuth';
-import UserRoleSelection from './components/user/UserRoleSelection';
-import AddProduct from './pages/AddProduct';
-import CustomerHome from './pages/CustomerHome';
-import ProductDetails from './pages/ProductDetails';
-import NotFound from './pages/NotFound';
-import CartPage from './pages/CartPage';
-import PaymentSuccess from './pages/PaymentSuccess';
-import Checkout from './pages/Checkout';
-import RecipeList from './components/RecipeList';
-import RecipeProducts from './components/RecipeProducts';
-import ForgotPassword from './components/auth/ForgotPassword';
-import ResetPassword from './components/auth/ResetPassword';
+import CustomerAuth from "./components/auth/CustomerAuth";
+import VendorAuth from "./components/auth/VendorAuth";
+import UserRoleSelection from "./components/user/UserRoleSelection";
+import AddProduct from "./pages/AddProduct";
+import CustomerHome from "./pages/CustomerHome";
+import ProductDetails from "./pages/ProductDetails";
+import NotFound from "./pages/NotFound";
+import CartPage from "./pages/CartPage";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import CheckoutPage from "./pages/CheckoutPage";
+import RecipeList from "./components/RecipeList";
+import RecipeProducts from "./components/RecipeProducts";
+import ForgotPassword from "./components/auth/ForgotPassword";
+import ResetPassword from "./components/auth/ResetPassword";
+import RefundPolicy from "./components/RefundPolicy";
+import TermsAndConditions from "./components/TermsAndConditions";
+import PrivacyPolicy from "./components/PrivacyPolicy"; // Ensure you import this component
 
 const App = () => {
-  const [language, setLanguage] = useState('en'); // Default to English
+  const [language, setLanguage] = useState("en"); // Default to English
 
   // Load the language from localStorage when the app loads
   useEffect(() => {
-    const storedLanguage = localStorage.getItem('appLanguage');
+    const storedLanguage = localStorage.getItem("appLanguage");
     if (storedLanguage) {
       setLanguage(storedLanguage);
     }
@@ -30,13 +33,12 @@ const App = () => {
   const handleLanguageChange = (e) => {
     const selectedLanguage = e.target.value;
     setLanguage(selectedLanguage);
-    localStorage.setItem('appLanguage', selectedLanguage);
+    localStorage.setItem("appLanguage", selectedLanguage);
     // You can apply other necessary actions here if needed
   };
 
   return (
     <>
-     
       {/* Routes */}
       <Routes>
         <Route path="/" element={<UserRoleSelection />} />
@@ -48,10 +50,13 @@ const App = () => {
         <Route path="/recipes" element={<RecipeList />} />
         <Route path="/recipe-products/:name" element={<RecipeProducts />} />
         <Route path="/cart" element={<CartPage />} />
-        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+        <Route path="/refund-policy" element={<RefundPolicy />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

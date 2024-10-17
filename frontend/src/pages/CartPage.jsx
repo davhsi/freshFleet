@@ -229,7 +229,11 @@ const CartPage = () => {
           </button>
           <button
             className="bg-green-500 text-white py-2 px-4 rounded"
-            onClick={() => (window.location.href = "/checkout")}
+            onClick={() => {
+              localStorage.setItem("totalAmount", total.toFixed(2));
+
+              window.location.href = "/checkout";
+            }}
           >
             Proceed to Checkout
           </button>
