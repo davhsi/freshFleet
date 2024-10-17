@@ -18,6 +18,9 @@ const Footer = () => {
           <h3 className="text-lg font-bold mb-4">Quick Links</h3>
           <ul>
             <li className="mb-2">
+              <Link to="/about" className="hover:underline">About Business</Link>
+            </li>
+            <li className="mb-2">
               <Link to="/terms-and-conditions" className="hover:underline">Terms and Conditions</Link>
             </li>
             <li className="mb-2">
@@ -26,9 +29,9 @@ const Footer = () => {
             <li className="mb-2">
               <Link to="/privacy-policy" className="hover:underline">Privacy Policy</Link>
             </li>
-            {/* <li className="mb-2">
-              <Link to="/contact" className="hover:underline">Contact Us</Link>
-            </li> */}
+            <li className="mb-2">
+              <Link to="/contact" className="hover:underline">Contact Information</Link>
+            </li>
           </ul>
         </div>
 
@@ -74,4 +77,3 @@ const Footer = () => {
 };
 
 export default Footer;
-  

@@ -17,7 +17,9 @@ import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
 import RefundPolicy from "./components/RefundPolicy";
 import TermsAndConditions from "./components/TermsAndConditions";
-import PrivacyPolicy from "./components/PrivacyPolicy"; // Ensure you import this component
+import PrivacyPolicy from "./components/PrivacyPolicy";
+import AboutBusiness from "./components/AboutBusiness"; // Import the new About Business component
+import ContactInformation from "./components/ContactInformation"; // Import the new Contact Information component
 
 const App = () => {
   const [language, setLanguage] = useState("en"); // Default to English
@@ -57,6 +59,8 @@ const App = () => {
         <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/about" element={<AboutBusiness />} /> {/* Route for About Business */}
+        <Route path="/contact" element={<ContactInformation />} /> {/* Route for Contact Information */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
