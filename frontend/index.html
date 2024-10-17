@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=2.0" />
-    <title>Your Website Title</title>
+    <title>FreshFleet</title>
 
     <!-- Google Translate Integration -->
     <script type="text/javascript">
@@ -18,9 +18,11 @@
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-    <!-- Custom Styles to Hide Google Translate Default UI -->
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
     <style>
-      /* Hide the default Google Translate toolbar */
+      /* Hide the Google Translate toolbar */
       .goog-te-banner-frame.skiptranslate {
         display: none !important;
       }
@@ -28,34 +30,28 @@
         top: 0px !important;
       }
 
-      /* Hide the Google Translate logo */
-      .goog-logo-link {
+      /* Hide the Google Translate logo and re-style the dropdown */
+      .goog-logo-link, .goog-te-gadget span {
         display: none !important;
       }
-      .goog-te-gadget {
-        color: transparent !important;
-      }
 
-      /* Re-style the Google Translate select button */
+      /* Style the Google Translate select dropdown */
       #google_translate_element select {
-        /* Tailwind classes won't apply here directly, 
-           so we use basic styling to override default styles */
-        background: none;
-        color: #000; /* Set your desired color for the text */
-        border: 1px solid #ccc;
-        padding: 5px;
-        font-size: 16px;
+        background: transparent !important;
+        color: #000 !important;
+        font-weight: bold !important;
+        font-size: 3rem; /* Tailwind's text-lg equivalent */
+        border: none !important;
+        padding: 0 !important;
         cursor: pointer;
-        /* Tailwind's base styles can't be used here due to the shadow DOM */
       }
     </style>
 
-    <!-- Tailwind CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   </head>
-  <body>
-    <!-- Google Translate language selector -->
-    <div class="absolute top-4 right-4 z-50" id="google_translate_element"></div>
+  <body class="relative bg-gray-100">
+
+    <!-- Google Translate language selector with Tailwind styling -->
+    <div id="google_translate_element" class="absolute top-4 left-1/2 transform -translate-x-1/2 z-50"></div>
 
     <!-- Your React app root -->
     <div id="root"></div>

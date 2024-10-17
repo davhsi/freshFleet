@@ -15,40 +15,6 @@ const CustomerHome = () => {
   const navigate = useNavigate();
   const userId = localStorage.getItem('customerId');
 
-  // Load Google Translate script
-  useEffect(() => {
-    // Function to initialize the Google Translate widget
-    const initializeGoogleTranslate = () => {
-      if (typeof window.google !== 'undefined' && window.google.translate) {
-        new window.google.translate.TranslateElement({
-          pageLanguage: 'en',
-          includedLanguages: 'ta,en',
-          layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
-        }, 'google_translate_element');
-      }
-    };
-
-    // Check if the Google Translate script has already been added
-    const existingScript = document.getElementById('google-translate-script');
-    if (!existingScript) {
-      const script = document.createElement("script");
-      script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-      script.id = 'google-translate-script';
-      script.async = true;
-      document.body.appendChild(script);
-      script.onload = initializeGoogleTranslate; // Initialize after script loads
-    } else {
-      initializeGoogleTranslate(); // Initialize if script already exists
-    }
-
-    return () => {
-      // Clean up script on component unmount
-      if (existingScript) {
-        document.body.removeChild(existingScript);
-      }
-    };
-  }, []);
-
   // Helper function to calculate total vitamins
   const calculateTotalVitamins = (vitamins) => {
     return Object.values(vitamins)
@@ -62,7 +28,6 @@ const CustomerHome = () => {
       setCustomerName(storedName);
     }
 
-    // Transform product names for image matching
     const transformProductName = (name) => name.toLowerCase().replace(/\s+/g, '_');
 
     const allProducts = data.ingredients.map((product) => ({
@@ -73,14 +38,12 @@ const CustomerHome = () => {
 
     setProducts(allProducts);
 
-    // Fetch user's cart from the server
     const fetchCart = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/api/cart/${userId}`);
         setCart(response.data.items);
       } catch (error) {
         console.error('Error fetching cart:', error);
-        // Consider showing an error message to the user
       }
     };
 
@@ -94,7 +57,6 @@ const CustomerHome = () => {
       .filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
       .sort((a, b) => {
         if (!sortBy) return 0;
-
         const valueA = parseFloat(a[sortBy] || a.vitamins['Omega-3 Fatty Acid']);
         const valueB = parseFloat(b[sortBy] || b.vitamins['Omega-3 Fatty Acid']);
         const comparison = valueA - valueB;
@@ -102,7 +64,6 @@ const CustomerHome = () => {
       });
   }, [products, searchTerm, sortBy, sortOrder]);
 
-  // Logout function
   const handleLogout = () => {
     localStorage.removeItem('customerId');
     localStorage.removeItem('customerName');
@@ -111,9 +72,6 @@ const CustomerHome = () => {
 
   return (
     <div className="min-h-screen p-4 md:p-8 lg:p-12">
-      {/* Google Translate Widget */}
-     
-
       {/* Logo and Greeting Container */}
       <div className="flex flex-col md:flex-row items-center justify-between lg:ml-8 mb-6">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-700 mb-2">
@@ -140,7 +98,7 @@ const CustomerHome = () => {
         {/* Sort Dropdown */}
         <div className="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4 lg:space-x-8">
           <select
-            className="border border-gray-900 p-2 rounded-lg"
+            className="border border-gray-900 p-2 rounded-lg bg-transparent"
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
           >
@@ -154,7 +112,7 @@ const CustomerHome = () => {
           </select>
   
           <select
-            className="border border-gray-900 p-2 rounded-lg"
+            className="border border-gray-900 p-2 rounded-lg bg-transparent"
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
           >
