@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import ProductCard from '../components/customer/ProductCard';
-import { API_BASE_URL } from '../config';
+import ProductCard from '../customer/ProductCard';
+import { API_BASE_URL } from '../../config';
 import { FaArrowLeft } from 'react-icons/fa'; // Import the back icon
 
 const RecipeProducts = () => {

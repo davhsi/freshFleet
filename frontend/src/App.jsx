@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-// Import your components
 import CustomerAuth from "./components/auth/CustomerAuth";
 import VendorAuth from "./components/auth/VendorAuth";
 import UserRoleSelection from "./components/user/UserRoleSelection";
@@ -11,15 +10,15 @@ import NotFound from "./pages/NotFound";
 import CartPage from "./pages/CartPage";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import CheckoutPage from "./pages/CheckoutPage";
-import RecipeList from "./components/RecipeList";
-import RecipeProducts from "./components/RecipeProducts";
+import RecipeList from "./components/recipe/RecipeList";
+import RecipeProducts from "./components/recipe/RecipeProducts";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
-import RefundPolicy from "./components/RefundPolicy";
-import TermsAndConditions from "./components/TermsAndConditions";
-import PrivacyPolicy from "./components/PrivacyPolicy";
-import AboutBusiness from "./components/AboutBusiness"; // Import the new About Business component
-import ContactInformation from "./components/ContactInformation"; // Import the new Contact Information component
+import RefundPolicy from "./components/footer/RefundPolicy";
+import TermsAndConditions from "./components/footer/TermsAndConditions";
+import PrivacyPolicy from "./components/footer/PrivacyPolicy";
+import AboutBusiness from "./components/footer/AboutBusiness"; 
+import ContactInformation from "./components/footer/ContactInformation"; 
 
 const App = () => {
   const [language, setLanguage] = useState("en"); // Default to English

@@ -5,7 +5,7 @@ import '../styles/tailwind.css';
 import { API_BASE_URL } from '../config';
 import AuthForm from '../components/auth/AuthForm';
 import SwitchAuthMode from '../components/auth/SwitchAuthMode';
-import Footer from '../components/Footer'; // Import Footer component
+import Footer from '../components/footer/Footer'; 
 
 const Auth = ({ role }) => {
     const [name, setName] = useState('');

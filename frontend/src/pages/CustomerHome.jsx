@@ -4,6 +4,7 @@ import ProductCard from '../components/customer/ProductCard';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
 import data from '../data/data.json';
+import Footer from '../components/footer/Footer';
 
 const CustomerHome = () => {
   const [customerName, setCustomerName] = useState('Guest');
@@ -15,7 +16,40 @@ const CustomerHome = () => {
   const navigate = useNavigate();
   const userId = localStorage.getItem('customerId');
 
-  // Helper function to calculate total vitamins
+  // Load Google Translate script
+  useEffect(() => {
+    // Function to initialize the Google Translate widget
+    const initializeGoogleTranslate = () => {
+      if (typeof window.google !== 'undefined' && window.google.translate) {
+        new window.google.translate.TranslateElement({
+          pageLanguage: 'en',
+          includedLanguages: 'ta,en',
+          layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
+        }, 'google_translate_element');
+      }
+    };
+
+    // Check if the Google Translate script has already been added
+    const existingScript = document.getElementById('google-translate-script');
+    if (!existingScript) {
+      const script = document.createElement("script");
+      script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      script.id = 'google-translate-script';
+      script.async = true;
+      document.body.appendChild(script);
+      script.onload = initializeGoogleTranslate; // Initialize after script loads
+    } else {
+      initializeGoogleTranslate(); // Initialize if script already exists
+    }
+
+    return () => {
+      // Clean up script on component unmount
+      if (existingScript) {
+        document.body.removeChild(existingScript);
+      }
+    };
+  }, []);
+
   const calculateTotalVitamins = (vitamins) => {
     return Object.values(vitamins)
       .map(parseFloat)
@@ -72,6 +106,9 @@ const CustomerHome = () => {
 
   return (
     <div className="min-h-screen p-4 md:p-8 lg:p-12">
+      {/* Google Translate Widget */}
+     
+
       {/* Logo and Greeting Container */}
       <div className="flex flex-col md:flex-row items-center justify-between lg:ml-8 mb-6">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-700 mb-2">
@@ -127,7 +164,7 @@ const CustomerHome = () => {
             onClick={() => navigate('/cart')}
             className="custom-button px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
           >
-            MyCart
+            My Cart
           </button>
           <button
             onClick={() => navigate('/recipes')}
@@ -154,6 +191,8 @@ const CustomerHome = () => {
           <p className="text-center lg:text-left lg:ml-8">No products found.</p>
         )}
       </div>
+
+      <Footer />
     </div>
   );
 };

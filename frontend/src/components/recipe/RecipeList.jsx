@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL } from '../config'; 
+import { API_BASE_URL } from '../../config'; 
 import { FaArrowLeft } from 'react-icons/fa'; // Import back icon
 
 const RecipeList = () => {
