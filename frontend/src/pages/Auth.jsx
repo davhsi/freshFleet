@@ -72,12 +72,14 @@ const Auth = ({ role }) => {
     };
 
     return (
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen relative">
             {/* Main Content */}
-            <div className="flex-grow flex items-center justify-center bg-cover bg-center"
-                style={{ backgroundImage: `url('/loginPage.jpeg')` }}> {/* Adjusted the form centering */}
-                <div className="w-full max-w-md p-8 m-8 space-y-6 bg-white rounded shadow-md">
-                    <h2 className="text-2xl font-bold text-left text-green-600">
+            <div className="flex-grow flex justify-center bg-cover bg-center relative"
+                style={{ backgroundImage: `url('/loginPage.jpeg')` }}> 
+                
+                {/* Form positioned in the right-center */}
+                <div className="w-full max-w-md p-8 m-8 space-y-6 bg-white rounded shadow-md absolute right-0 top-1/2 transform -translate-y-1/2">
+                    <h2 className="text-2xl font-bold text-center text-green-600">
                         {isSignUp ? `Sign Up as ${role === 'vendor' ? 'Vendor' : 'Customer'}` : `Sign In as ${role === 'vendor' ? 'Vendor' : 'Customer'}`}
                     </h2>
 

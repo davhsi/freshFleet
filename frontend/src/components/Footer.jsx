@@ -3,21 +3,21 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white py-8">
+    <footer className="bg-gray-900 text-white py-3">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
         {/* Company Info Section */}
         <div>
-          <h3 className="text-lg font-bold mb-4">FreshFleet</h3>
-          <p className="text-sm">
+          <h3 className="text-2xl font-bold  mb-4">FreshFleet</h3>
+          <p className="text-l">
             FreshFleet is your go-to solution for fresh product delivery and vendor management. We ensure quality products and efficient service for both customers and vendors.
           </p>
         </div>
 
         {/* Quick Links Section */}
         <div>
-          <h3 className="text-lg font-bold mb-4">Quick Links</h3>
+          <h3 className="text-2xl font-bold mb-4">Quick Links</h3>
           <ul>
-            <li className="mb-2">
+            <li className="mb-2" >
               <Link to="/about" className="hover:underline">About Business</Link>
             </li>
             <li className="mb-2">
@@ -37,12 +37,12 @@ const Footer = () => {
 
         {/* Contact Information Section */}
         <div>
-          <h3 className="text-lg font-bold mb-4">Get in Touch</h3>
-          <p className="text-sm mb-2">
-            <span className="font-semibold">Email:</span> <a href="mailto:shop.freshfleet@gmail.com" className="hover:underline">shop.freshfleet@gmail.com</a>
+          <h3 className="text-2xl font-bold mb-4">Get in Touch</h3>
+          <p className="text-l mb-2">
+            <span className="font">Email:</span> <a href="mailto:shop.freshfleet@gmail.com" className="hover:underline">shop.freshfleet@gmail.com</a>
           </p>
-          <p className="text-sm mb-4">
-            <span className="font-semibold">Phone:</span> <a href="tel:9489483316" className="hover:underline">9489483316</a>
+          <p className="text-l mb-4">
+            <span className="font-normal">Phone:</span> <a href="tel:9489483316" className="hover:underline">9489483316</a>
           </p>
           <div className="flex justify-center md:justify-start space-x-4">
             {/* Social Media Icons (use icons or placeholders) */}
