@@ -1,7 +1,27 @@
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const UserRoleSelection = () => {
   const navigate = useNavigate();
+  const [backgroundImage, setBackgroundImage] = useState('/userHome.jpeg');
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) { // Adjust this value for mobile breakpoint
+        setBackgroundImage('/2.jpg');
+      } else {
+        setBackgroundImage('/userHome.jpeg');
+      }
+    };
+
+    // Initial check
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const handleRoleSelect = (role) => {
     navigate(`/auth/${role}`);
@@ -9,8 +29,8 @@ const UserRoleSelection = () => {
 
   return (
     <div 
-      className="relative min-h-screen bg-cover bg-center flex items-center justify-center"
-      style={{ backgroundImage: `url('/userHome.jpeg')` }}
+      className="relative min-h-screen flex items-center justify-center"
+      style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
     >
       <div className="absolute top-[55%] left-[75%] transform -translate-x-[40%] -translate-y-1/2">
         <div className="flex flex-col space-y-4">
