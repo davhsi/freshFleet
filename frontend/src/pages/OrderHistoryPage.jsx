@@ -20,7 +20,12 @@ const OrderHistoryPage = () => {
         const response = await axios.get(`${API_BASE_URL}/api/orders/${userId}`);
         setOrders(response.data.orders);
       } catch (err) {
-        setError(err.message);
+        if (err.response && err.response.status === 404) {
+          // If a 404 error occurs, it means no orders are found for this user
+          setOrders([]); // Treat this as no orders found
+        } else {
+          setError(err.message); // Handle other errors
+        }
       } finally {
         setLoading(false);
       }
@@ -32,10 +37,9 @@ const OrderHistoryPage = () => {
   // Function to get the image path based on the product name
   const getProductImage = (productName) => {
     const formattedName = productName.toLowerCase().replace(/\s+/g, "_");
-    const jpgPath = `/public/${formattedName}.jpg`;
-    const jpegPath = `/public/${formattedName}.jpeg`;
+    const jpgPath = `/${formattedName}.jpg`;
+    const jpegPath = `/${formattedName}.jpeg`;
 
-    // Check if the file exists using a simple trick (use jpg by default)
     const image = new Image();
     image.src = jpgPath;
     if (image.complete) {
@@ -59,12 +63,17 @@ const OrderHistoryPage = () => {
         <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-lg">
           <h1 className="text-center text-3xl mb-6 font-bold">Order History</h1>
           <div className="text-center">
-            <p className="text-lg mb-4">You have no past orders.</p>
+            <p className="text-lg mb-4">
+              Oops! It looks like you haven't placed any orders yet. 
+            </p>
+            <p className="text-lg mb-4">
+              Your shopping cart is feeling a bit lonely. 🛒 How about we change that?
+            </p>
             <button
               className="bg-blue-500 text-white py-2 px-4 rounded w-full"
               onClick={() => (window.location.href = "/home")}
             >
-              Shop Now
+              Let's Go Shopping! 🛍️
             </button>
           </div>
         </div>
