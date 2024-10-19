@@ -19,6 +19,7 @@ import TermsAndConditions from "./components/footer/TermsAndConditions";
 import PrivacyPolicy from "./components/footer/PrivacyPolicy";
 import AboutBusiness from "./components/footer/AboutBusiness"; 
 import ContactInformation from "./components/footer/ContactInformation"; 
+import OrderHistoryPage from "./pages/OrderHistoryPage";
 
 const App = () => {
   const [language, setLanguage] = useState("en"); // Default to English
@@ -60,6 +61,8 @@ const App = () => {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/about" element={<AboutBusiness />} /> {/* Route for About Business */}
         <Route path="/contact" element={<ContactInformation />} /> {/* Route for Contact Information */}
+        <Route path="/order-history" element={<OrderHistoryPage />} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
