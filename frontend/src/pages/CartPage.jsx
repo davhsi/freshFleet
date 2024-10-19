@@ -23,7 +23,12 @@ const CartPage = () => {
         setCart(cartItems);
         calculateTotal(cartItems);
       } catch (err) {
-        setError(err.message);
+        if (err.response && err.response.status === 404) {
+          // Handle 404 (cart not found) by treating it as an empty cart
+          setCart([]); // Set cart as empty
+        } else {
+          setError(err.message);
+        }
       } finally {
         setLoading(false);
       }
