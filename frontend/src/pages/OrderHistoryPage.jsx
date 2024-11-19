@@ -7,6 +7,7 @@ const OrderHistoryPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const userId = localStorage.getItem("customerId");
+  const [reviewData, setReviewData] = useState({}); // To manage review input
 
   useEffect(() => {
     if (!userId) {
@@ -21,10 +22,9 @@ const OrderHistoryPage = () => {
         setOrders(response.data.orders);
       } catch (err) {
         if (err.response && err.response.status === 404) {
-          // If a 404 error occurs, it means no orders are found for this user
-          setOrders([]); // Treat this as no orders found
+          setOrders([]);
         } else {
-          setError(err.message); // Handle other errors
+          setError(err.message);
         }
       } finally {
         setLoading(false);
@@ -45,8 +45,42 @@ const OrderHistoryPage = () => {
     if (image.complete) {
       return jpgPath;
     } else {
-      return jpegPath; // fallback to .jpeg if .jpg doesn't exist
+      return jpegPath;
     }
+  };
+
+  // Function to handle adding/updating reviews
+  const handleReviewSubmit = async (productId, orderId) => {
+    const { rating, comment } = reviewData[productId] || {};
+    if (!rating || !comment) {
+      alert("Please provide both a rating and a comment!");
+      return;
+    }
+
+    try {
+      await axios.post(`${API_BASE_URL}/api/reviews`, {
+        userId,
+        productId,
+        orderId,
+        rating,
+        comment,
+      });
+      alert("Review submitted successfully!");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to submit review.");
+    }
+  };
+
+  // Function to handle review input changes
+  const handleReviewChange = (productId, field, value) => {
+    setReviewData((prevData) => ({
+      ...prevData,
+      [productId]: {
+        ...prevData[productId],
+        [field]: value,
+      },
+    }));
   };
 
   if (loading) return <div className="text-center text-2xl">Loading...</div>;
@@ -100,10 +134,9 @@ const OrderHistoryPage = () => {
                 {order.items.map((item) => (
                   <div
                     key={item.product._id}
-                    className="flex justify-between border-b pb-2"
+                    className="flex flex-col border-b pb-4 mb-4"
                   >
                     <div className="flex items-center space-x-4">
-                      {/* Display product image */}
                       <img
                         src={getProductImage(item.product.name)}
                         alt={item.product.name}
@@ -115,9 +148,34 @@ const OrderHistoryPage = () => {
                         <p>Price per Kg: ₹{item.pricePerKg.toFixed(2)}</p>
                       </div>
                     </div>
-                    <p className="font-bold text-blue-600">
-                      ₹{(item.pricePerKg * item.quantity).toFixed(2)}
-                    </p>
+                    <div className="mt-4">
+                      <h4 className="text-lg font-semibold mb-2">Leave a Review:</h4>
+                      <input
+                        type="number"
+                        max="5"
+                        min="1"
+                        placeholder="Rating (1-5)"
+                        className="border p-2 rounded w-full mb-2"
+                        value={reviewData[item.product._id]?.rating || ""}
+                        onChange={(e) =>
+                          handleReviewChange(item.product._id, "rating", e.target.value)
+                        }
+                      />
+                      <textarea
+                        placeholder="Write your review"
+                        className="border p-2 rounded w-full mb-2"
+                        value={reviewData[item.product._id]?.comment || ""}
+                        onChange={(e) =>
+                          handleReviewChange(item.product._id, "comment", e.target.value)
+                        }
+                      />
+                      <button
+                        className="bg-green-500 text-white py-2 px-4 rounded"
+                        onClick={() => handleReviewSubmit(item.product._id, order._id)}
+                      >
+                        Submit Review
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
