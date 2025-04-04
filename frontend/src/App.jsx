@@ -16,7 +16,7 @@ import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
 import RefundPolicy from "./components/footer/RefundPolicy";
 import TermsAndConditions from "./components/footer/TermsAndConditions";
-import PrivacyPolicy from "./components/footer/PrivacyPolicy";
+import MyPrivacyPolicy from "./components/footer/MyPrivacyPolicy";
 import AboutBusiness from "./components/footer/AboutBusiness"; 
 import ContactInformation from "./components/footer/ContactInformation"; 
 import OrderHistoryPage from "./pages/OrderHistoryPage";
@@ -58,7 +58,7 @@ const App = () => {
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/privacy-policy" element={<MyPrivacyPolicy />} />
         <Route path="/about" element={<AboutBusiness />} /> {/* Route for About Business */}
         <Route path="/contact" element={<ContactInformation />} /> {/* Route for Contact Information */}
         <Route path="/order-history" element={<OrderHistoryPage />} />
