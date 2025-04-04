@@ -40,7 +40,7 @@ const ForgotPassword = () => {
   return (
     <div
       className="flex items-center justify-center min-h-screen"
-      style={{ backgroundImage: `url('/loginPage.jpeg')`, backgroundSize: 'cover' }}
+      style={{ backgroundImage: `url('products/loginPage.jpeg')`, backgroundSize: 'cover' }}
     >
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-green-700">Forgot Password</h2>

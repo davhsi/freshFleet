@@ -1,19 +1,22 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { CDN_BASE_URL } from '../../config' // import as variable
 
 const ProductCard = ({ product }) => {
   const { name, transformedName } = product;
   const navigate = useNavigate();
-  const [imagePath, setImagePath] = useState('/default.jpeg');
+  const [imagePath, setImagePath] = useState(`${CDN_BASE_URL}/products/default.jpeg`);
 
   const handleClick = () => {
     navigate(`/product/${name}`);
   };
+
   useEffect(() => {
     if (transformedName) {
       const checkImagePath = async () => {
-        const jpgPath = `/products/${transformedName}.jpg`;
-        const jpegPath = `/products/${transformedName}.jpeg`;
+        const jpgPath = `${CDN_BASE_URL}/products/${transformedName}.jpg`;
+        const jpegPath = `${CDN_BASE_URL}/products/${transformedName}.jpeg`;
+        const fallbackPath = `${CDN_BASE_URL}/products/default.jpeg`;
 
         const imageExists = (path) => {
           return new Promise((resolve) => {
@@ -29,7 +32,7 @@ const ProductCard = ({ product }) => {
         } else if (await imageExists(jpegPath)) {
           setImagePath(jpegPath);
         } else {
-          setImagePath('/default.jpeg');
+          setImagePath(fallbackPath);
         }
       };
 
@@ -48,7 +51,7 @@ const ProductCard = ({ product }) => {
         className="w-full h-32 object-cover rounded-lg mb-4" 
         onError={(e) => {
           e.target.onerror = null;
-          e.target.src = '/default.jpeg';
+          e.target.src = `${CDN_BASE_URL}/products/default.jpeg`;
         }}
       />
       <h3 className="text-lg font-semibold text-center">{name}</h3>

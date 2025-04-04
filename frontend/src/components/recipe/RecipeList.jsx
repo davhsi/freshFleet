@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL } from '../../config'; 
+import { API_BASE_URL, CDN_BASE_URL } from '../../config'; 
 import { FaArrowLeft } from 'react-icons/fa'; // Import back icon
 
 const RecipeList = () => {
@@ -40,25 +40,22 @@ const RecipeList = () => {
     navigate(`/recipe-products/${recipe.name}`, { state: { recipe } });
   };
 
-  // Back button handler
   const handleBack = () => {
-    navigate(-1); // Navigate to the previous page
+    navigate(-1);
   };
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen font-serif">
-      {/* Back button */}
       <button
         onClick={handleBack}
         className="text-gray-700 hover:text-blue-500 flex items-center mb-6"
       >
-        <FaArrowLeft className="mr-2" /> {/* Back icon */}
+        <FaArrowLeft className="mr-2" />
         Back
       </button>
 
       <h1 className="text-4xl font-bold text-center text-green-700 mb-8">Recipes List</h1>
 
-      {/* Quote Section */}
       <div className="bg-green-100 text-green-700 p-4 rounded-lg shadow-lg mb-8 text-center">
         <p className="text-xl italic">
           "Making cooking simpler, smarter, and just a click away"
@@ -73,7 +70,7 @@ const RecipeList = () => {
           placeholder="Search Recipes..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full p-3 border rounded-lg shadow-sm  focus:outline-none focus:ring-2 focus:ring-green-600"
+          className="w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-600"
         />
       </div>
 
@@ -86,9 +83,13 @@ const RecipeList = () => {
               onClick={() => handleRecipeClick(recipe)}
             >
               <img
-                src={`/recipes/${recipe.image}`}
+                src={`${CDN_BASE_URL}/recipes/${recipe.image}`}
                 alt={recipe.name}
                 className="w-full h-40 object-cover rounded-lg"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = `${CDN_BASE_URL}/recipes/default.jpeg`;
+                }}
               />
               <h2 className="text-xl font-semibold mt-4 text-gray-800">{recipe.name}</h2>
             </div>

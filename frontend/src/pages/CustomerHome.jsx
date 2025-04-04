@@ -1,20 +1,21 @@
-import { useEffect, useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import ProductCard from '../components/customer/ProductCard';
-import axios from 'axios';
-import { API_BASE_URL } from '../config';
-import data from '../data/data.json';
-import Footer from '../components/footer/Footer';
+import { useEffect, useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import ProductCard from "../components/customer/ProductCard";
+import axios from "axios";
+import { API_BASE_URL } from "../config";
+import data from "../data/data.json";
+import Footer from "../components/footer/Footer";
+import { CDN_BASE_URL } from "../config"; 
 
 const CustomerHome = () => {
-  const [customerName, setCustomerName] = useState('Guest');
+  const [customerName, setCustomerName] = useState("Guest");
   const [products, setProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [cart, setCart] = useState([]);
-  const [sortBy, setSortBy] = useState('');
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortBy, setSortBy] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
   const navigate = useNavigate();
-  const userId = localStorage.getItem('customerId');
+  const userId = localStorage.getItem("customerId");
   const calculateTotalVitamins = (vitamins) => {
     return Object.values(vitamins)
       .map(parseFloat)
@@ -22,12 +23,13 @@ const CustomerHome = () => {
   };
 
   useEffect(() => {
-    const storedName = localStorage.getItem('customerName');
+    const storedName = localStorage.getItem("customerName");
     if (storedName && storedName.trim()) {
       setCustomerName(storedName);
     }
 
-    const transformProductName = (name) => name.toLowerCase().replace(/\s+/g, '_');
+    const transformProductName = (name) =>
+      name.toLowerCase().replace(/\s+/g, "_");
 
     const allProducts = data.ingredients.map((product) => ({
       ...product,
@@ -42,7 +44,7 @@ const CustomerHome = () => {
         const response = await axios.get(`${API_BASE_URL}/api/cart/${userId}`);
         setCart(response.data.items);
       } catch (error) {
-        console.error('Error fetching cart:', error);
+        console.error("Error fetching cart:", error);
       }
     };
 
@@ -53,38 +55,59 @@ const CustomerHome = () => {
 
   const filteredProducts = useMemo(() => {
     return products
-      .filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
+      .filter((product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
       .sort((a, b) => {
         if (!sortBy) return 0;
-        const valueA = parseFloat(a[sortBy] || a.vitamins['Omega-3 Fatty Acid']);
-        const valueB = parseFloat(b[sortBy] || b.vitamins['Omega-3 Fatty Acid']);
+        const valueA = parseFloat(
+          a[sortBy] || a.vitamins["Omega-3 Fatty Acid"]
+        );
+        const valueB = parseFloat(
+          b[sortBy] || b.vitamins["Omega-3 Fatty Acid"]
+        );
         const comparison = valueA - valueB;
-        return sortOrder === 'asc' ? comparison : -comparison;
+        return sortOrder === "asc" ? comparison : -comparison;
       });
   }, [products, searchTerm, sortBy, sortOrder]);
 
   const handleLogout = () => {
-    localStorage.removeItem('customerId');
-    localStorage.removeItem('customerName');
-    navigate('/');
+    localStorage.removeItem("customerId");
+    localStorage.removeItem("customerName");
+    navigate("/");
   };
 
   return (
     <div className="min-h-screen p-4 md:p-6 lg:p-8">
       <div className="flex flex-col md:flex-row items-center justify-between lg:ml-6 mb-4">
-        
         <div className="flex items-center space-x-4">
           <img
-            src="/logo.png" 
+            src={`${CDN_BASE_URL}/products/logo.png`}
             alt="FreshFleet Logo"
-            className="w-100 h-24 object-contain ml-0" // Increased size for the logo
+            className="w-100 h-24 object-contain ml-0"
           />
         </div>
 
         {/* Greeting Section */}
         <h1 className="text-3xl md:text-4xl font-bold text-gray-700 ml-4">
-          <span style={{ color: 'black', fontWeight: 'bold', fontFamily: "'Edu Australia', cursive" }}>Hello</span>{' '}
-          <span style={{ color: 'green', fontWeight: 'bold', fontFamily: "'Edu Australia', cursive" }}>{customerName}!</span>
+          <span
+            style={{
+              color: "black",
+              fontWeight: "bold",
+              fontFamily: "'Edu Australia', cursive",
+            }}
+          >
+            Hello
+          </span>{" "}
+          <span
+            style={{
+              color: "green",
+              fontWeight: "bold",
+              fontFamily: "'Edu Australia', cursive",
+            }}
+          >
+            {customerName}!
+          </span>
         </h1>
       </div>
 
@@ -112,7 +135,9 @@ const CustomerHome = () => {
             <option value="protein">Sort by Protein</option>
             <option value="fibers">Sort by Fibers</option>
             <option value="totalVitamins">Sort by Total Vitamins</option>
-            <option value="Omega-3 Fatty Acid">Sort by Omega-3 Fatty Acid</option>
+            <option value="Omega-3 Fatty Acid">
+              Sort by Omega-3 Fatty Acid
+            </option>
           </select>
 
           <select
@@ -128,19 +153,19 @@ const CustomerHome = () => {
         {/* Buttons container */}
         <div className="flex space-x-4 lg:space-x-6">
           <button
-            onClick={() => navigate('/cart')}
+            onClick={() => navigate("/cart")}
             className="custom-button px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
           >
             My Cart
           </button>
           <button
-            onClick={() => navigate('/recipes')}
+            onClick={() => navigate("/recipes")}
             className="custom-button px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
           >
             Recipes
           </button>
           <button
-            onClick={() => navigate('/order-history')}
+            onClick={() => navigate("/order-history")}
             className="custom-button px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
           >
             Order History

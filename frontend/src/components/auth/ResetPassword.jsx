@@ -47,7 +47,7 @@ const ResetPassword = () => {
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-cover bg-center"
-             style={{ backgroundImage: `url('/loginPage.jpeg')` }}>
+             style={{ backgroundImage: `url('products/loginPage.jpeg')` }}>
             <div className="w-full max-w-md p-6 space-y-6 bg-white rounded shadow-md">
                 <h2 className="text-2xl font-bold text-green-700">Reset Password</h2>
                 {errorMessage && <p className="text-red-500">{errorMessage}</p>}

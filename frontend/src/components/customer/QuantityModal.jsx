@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { CDN_BASE_URL } from "../../config"; // adjust path as needed
 
 const QuantityModal = ({ product, isOpen, onClose, onAddToCart }) => {
   const [quantity, setQuantity] = useState(1);
@@ -22,18 +23,23 @@ const QuantityModal = ({ product, isOpen, onClose, onAddToCart }) => {
         <h2 className="text-xl font-bold mb-4">Add to Cart</h2>
         <div className="mb-4">
           <img
-            src={`/${product.name.toLowerCase().replace(/ /g, '_')}.jpg`}
+            src={`${CDN_BASE_URL}/products/${product.name
+              .toLowerCase()
+              .replace(/ /g, "_")}.jpg`}
             alt={product.name}
             className="w-full h-32 object-cover rounded-lg mb-4"
             onError={(e) => {
               const imgElement = e.target;
-              if (imgElement.src.includes('.jpg')) {
-                imgElement.src = `/${product.name.toLowerCase().replace(/ /g, '_')}.jpeg`;
+              if (imgElement.src.includes(".jpg")) {
+                imgElement.src = `${CDN_BASE_URL}/${product.name
+                  .toLowerCase()
+                  .replace(/ /g, "_")}.jpeg`;
               } else {
-                imgElement.src = '/placeholder.jpg'; // Fallback to a placeholder if no image is found
+                imgElement.src = `${CDN_BASE_URL}/products/placeholder.jpg`; // fallback hosted in CDN
               }
             }}
           />
+
           <h3 className="text-lg font-semibold">{product.name}</h3>
           <p className="text-gray-600">Price per Kg: ₹{product.pricePerKg}</p>
         </div>
