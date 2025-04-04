@@ -12,8 +12,8 @@ const ProductCard = ({ product }) => {
   useEffect(() => {
     if (transformedName) {
       const checkImagePath = async () => {
-        const jpgPath = `/${transformedName}.jpg`;
-        const jpegPath = `/${transformedName}.jpeg`;
+        const jpgPath = `/products/${transformedName}.jpg`;
+        const jpegPath = `/products/${transformedName}.jpeg`;
 
         const imageExists = (path) => {
           return new Promise((resolve) => {
